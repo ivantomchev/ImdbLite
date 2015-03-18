@@ -1,0 +1,85 @@
+﻿@model ImdbLite.Web.ViewModels.Home.HomePageViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-6 hidden-xs">
+
+        @Html.DisplayFor(m => m.CarouselArticles, new { @class = "panel-primary", title = @Html.DisplayNameFor(m => m.CarouselArticles) })
+    </div>
+
+    <div class="col-md-6 hidden-sm hidden-xs">
+
+        @Html.DisplayFor(m => m.Trailers, new { @class = "panel-primary", title = @Html.DisplayNameFor(m => m.Trailers) })
+
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        @Html.DisplayFor(m => m.Articles, new { @class = "panel-primary", title = @Html.DisplayNameFor(m => m.Articles) })
+    </div>
+
+    <div class="col-md-6">
+        @Html.DisplayFor(m => m.Movies, new { @class = "panel-primary", title = @Html.DisplayNameFor(m => m.Movies) })
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">ON THEATHERS</div>
+            <div class="panel-body">
+
+                <div id="owl-demo" class="owl-carousel owl-theme">
+                    @foreach (var item in Model.OnTheaters)
+                    {
+                    <div class="item">
+                        <a href="@Url.Action("Details", "Movies", new { id = item.Id })">
+                            <div style="margin:5px">@Html.Image(item.Poster.Content, item.Poster.Type, null, new { @class = "img-responsive" })</div>
+                        </a>
+                    </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/activate-fancybox-trailer")
+    <script>
+        $(function () {
+
+            var owl = $("#owl-demo");
+
+            owl.owlCarousel({
+                items: 10, //10 items above 1000px browser width
+                itemsDesktop: [1000, 5], //5 items between 1000px and 901px
+                itemsDesktopSmall: [900, 3], // betweem 900px and 601px
+                itemsTablet: [600, 2], //2 items between 600 and 0
+                itemsMobile: false // itemsMobile disabled - inherit from itemsTablet option
+            });
+
+            // Custom Navigation Events
+            $(".next").click(function () {
+                owl.trigger('owl.next');
+            })
+            $(".prev").click(function () {
+                owl.trigger('owl.prev');
+            })
+            $(".play").click(function () {
+                owl.trigger('owl.play', 1000); //owl.play event accept autoPlay speed as second parameter
+            })
+            $(".stop").click(function () {
+                owl.trigger('owl.stop');
+            })
+
+        })
+    </script>
+}

@@ -1,0 +1,335 @@
+﻿body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select {
+    max-width: 280px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+.playVideo {
+    width: 90px;
+    height: 90px;
+    background-image: url('/Files/Images/Common/play_video.png');
+    cursor: pointer;
+    position: absolute;
+    opacity: 0.7;
+    top: 135px;
+    right: 61px;
+}
+
+    .playVideo:hover {
+        opacity: 1;
+    }
+
+.img_container {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.fancybox-skin {
+    background-color: #000000; /* or whatever */
+}
+
+.poster-preview {
+    height: 317px;
+    width: 214px;
+}
+
+.main-photo{
+    max-width:214px;
+    max-height:317px;
+}
+
+.thumbnail-image {
+    height: 209px;
+    width: 140px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.text-italic {
+    font-style: italic;
+}
+
+a {
+    text-decoration: none !important;
+    color:white !important;
+}
+
+.fixed-photo {
+    width: 130px;
+    height: 190px;
+}
+
+#goTop {
+    /*width: 50px;
+      height: 50px;*/
+    display: block;
+    /*border-radius:10px;*/
+    /*text-align: center;*/
+    display: none;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.text-white, .text-white:hover {
+    color: white;
+}
+
+.panel-active {
+    background-color: #6c6969;
+}
+
+/*custom panel*/
+
+.panel-info-custom {
+    margin-bottom: 21px;
+}
+
+    .panel-info-custom > .panel-footer-info > img {
+        max-width: 500px;
+        min-width: 240px;
+    }
+
+
+    .panel-info-custom:hover > .panel-footer-info {
+        background-color: #375a7f;
+        border-color: #375a7f;
+    }
+
+.panel-footer-info {
+    border-color: #3498db;
+    background-color: #3498db;
+}
+
+/*LAST UPDATE*/
+.carousel img {
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 270px;
+    max-width: none;
+}
+
+.custom-col {
+    /*padding: 0;
+    top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 240px;
+  max-width: none;*/
+    padding:0;
+}
+
+    .custom-col > img {
+        height: 270px;
+    }
+
+.custom-panel-no-padding {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+/*.no-photo-medium {
+    background-image: url('../Files/Images/Common/Your_Photo_Here.jpg');
+    background-repeat:no-repeat;
+    width:253px;
+    height:317px;
+}*/
+
+/*Override Chosen Styles*/
+
+select.form-control + .chosen-container.chosen-container-single .chosen-single {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    background-image: none;
+}
+
+    select.form-control + .chosen-container.chosen-container-single .chosen-single div {
+        top: 4px;
+        color: #000;
+    }
+
+select.form-control + .chosen-container .chosen-drop {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    margin: 2px 0 0;
+}
+
+select.form-control + .chosen-container .chosen-search input[type=text] {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    background-image: none;
+}
+
+select.form-control + .chosen-container .chosen-results {
+    margin: 2px 0 0;
+    padding: 5px 0;
+    font-size: 14px;
+    list-style: none;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+    select.form-control + .chosen-container .chosen-results li,
+    select.form-control + .chosen-container .chosen-results li.active-result {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.428571429;
+        color: #333;
+        white-space: nowrap;
+        background-image: none;
+    }
+
+        select.form-control + .chosen-container .chosen-results li:hover,
+        select.form-control + .chosen-container .chosen-results li.active-result:hover,
+        select.form-control + .chosen-container .chosen-results li.highlighted {
+            color: #FFF;
+            text-decoration: none;
+            background-color: #428BCA;
+            background-image: none;
+        }
+
+select.form-control + .chosen-container-multi .chosen-choices {
+    display: block;
+    width: 100%;
+    min-height: 34px;
+    padding: 6px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    background-image: none;
+}
+
+    select.form-control + .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+        height: auto;
+        padding: 5px 0;
+    }
+
+    select.form-control + .chosen-container-multi .chosen-choices li.search-choice {
+        background-image: none;
+        padding: 3px 24px 3px 5px;
+        margin: 0 6px 0 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        color: #333;
+        background-color: #FFF;
+        border-color: #CCC;
+    }
+
+        select.form-control + .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+            top: 8px;
+            right: 6px;
+        }
+
+select.form-control + .chosen-container-multi.chosen-container-active .chosen-choices,
+select.form-control + .chosen-container.chosen-container-single.chosen-container-active .chosen-single,
+select.form-control + .chosen-container .chosen-search input[type=text]:focus {
+    border-color: #66AFE9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+select.form-control + .chosen-container-multi .chosen-results li.result-selected {
+    display: list-item;
+    color: #ccc;
+    cursor: default;
+    background-color: white;
+}
+
+/*My fault*/ 
+.chosen-container-single .chosen-single span{
+    color:#333;
+}

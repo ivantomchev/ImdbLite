@@ -1,0 +1,97 @@
+﻿@model ImdbLite.Web.ViewModels.Celebrities.CelebrityDetailsViewModel
+
+
+<div class="container">
+
+    <div class="col-md-9">
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">Personal Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        @Html.Image(Model.Photo.Content, Model.Photo.Type, null, new { @class="img-responsive"})
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4>@Html.DisplayFor(model => model.FullName)</h4>
+                        <hr />
+                        <p class="text-info">@Html.DisplayNameFor(m => m.Biography)</p>
+                        <p>@Html.DisplayFor(m => m.Biography)</p>
+                        <ul class="list-unstyled">
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.BirthDate):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.BirthDate)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.Age):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.Age)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.BirthName):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.BirthName)</div></li>
+                        </ul>
+                        <div>
+                            @Ajax.ActionLink("Gallery", "GetGallery", new { id = Model.Id }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "gallery", InsertionMode = InsertionMode.Replace, OnSuccess = "openFancy" }, new { id = "opengallery", @class = "btn btn-success" })
+                            @Html.ActionLink("Full Biography", "FullBiography", new { Id = Model.Id }, new { @class = "btn btn-success" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">@Html.DisplayNameFor(m => m.RelatedMovies)</h3>
+                </div>
+                <div class="panel-body">
+                    @foreach (var item in Model.RelatedMovies)
+                    {
+                        <div class="col-md-2">
+
+                            <a href="@Url.Action("Details", "Movies", new { Id = item.Id })">
+                                @Html.Image(item.Poster.Content, item.Poster.Type, null, new { @class = "img-responsive" })
+                                <div class="text-center">
+                                    @Html.DisplayFor(m => item.Title)
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">Filmography</h3>
+                </div>
+                <div class="panel-body">
+
+                    @Html.DisplayFor(m => m.Actor, new { @class = "panel-info" })
+
+                    @Html.DisplayFor(m => m.Producer, new { @class = "panel-info" })
+
+                    @Html.DisplayFor(m => m.Director, new { @class = "panel-info" })
+
+                    @Html.DisplayFor(m => m.Writer, new { @class = "panel-info" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.DisplayFor(m => m.RelatedArticles, new { @class = "panel-primary", title = Html.DisplayNameFor(m => m.RelatedArticles) })
+        </div>
+
+
+        <div class="row">
+            @Html.ActionLink("Back to Celebrities", "Index", "Celebrities", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div id="gallery" class="hidden">
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/first-child-collapsed-in")
+    @Scripts.Render("~/bundles/activate-fancybox-gallery")
+}

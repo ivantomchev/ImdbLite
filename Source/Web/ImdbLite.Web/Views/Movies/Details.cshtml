@@ -1,0 +1,81 @@
+﻿@model ImdbLite.Web.ViewModels.Movies.MovieDetailsViewModel
+
+
+<div class="container">
+
+    <div class="col-md-9">
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">Movie Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        @Html.Image(Model.Poster.Content, Model.Poster.Type, null, new { @class = "img-responsive main-photo" })
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4>@Html.DisplayFor(model => model.Title) (@Html.DisplayFor(m => m.Year))</h4>
+                        <hr />
+                        <ul class="list-unstyled">
+                            @Html.DisplayFor(m => m.ProducedBy, new { title = @Html.DisplayNameFor(m => m.ProducedBy) })
+                            @Html.DisplayFor(m => m.DirectedBy, new { title = @Html.DisplayNameFor(m => m.DirectedBy) })
+                            @Html.DisplayFor(m => m.WrittenBy, new { title = @Html.DisplayNameFor(m => m.WrittenBy) })
+                            @Html.DisplayFor(m => m.Genres)
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.ReleaseDate):</div> <div class="col-md-6">@Html.DisplayFor(m => m.ReleaseDate)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.DVDReleaseDate):</div> <div class="col-md-6">@Html.DisplayFor(m => m.DVDReleaseDate)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.Duration):</div> <div class="col-md-6">@Html.DisplayFor(m => m.Duration) min.</div></li>
+                        </ul>
+                        <div>
+                            @Ajax.ActionLink("Gallery", "GetGallery", new { id = Model.Id }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "gallery", InsertionMode = InsertionMode.Replace, OnSuccess = "openFancy" }, new { id = "opengallery", @class = "btn btn-success" })
+                            <a class="trailer btn btn-success" title="@Model.Title" href="@Model.OfficialTrailer">
+                                @Html.DisplayNameFor(m => m.OfficialTrailer)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading" data-toggle="collapse" data-target="#story-line" aria-expanded="false">
+                    <h3 class="panel-title text-uppercase pointer">@Html.DisplayNameFor(m => m.StoryLine)</h3>
+                </div>
+                <div class="panel-body collapse collection" id="story-line">
+                    <p>
+                        @Html.DisplayFor(m => m.StoryLine)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.DisplayFor(m => m.Cast, new { @class = "panel-primary" })
+        </div>
+
+        <div class="row">
+            @Html.DisplayFor(m => m.Cinemas, new { @class = "panel-primary" })
+        </div>
+
+        <div class="row">
+            @Html.DisplayFor(m => m.RelatedArticles, new { @class = "panel-primary", title = Html.DisplayNameFor(m => m.RelatedArticles) })
+        </div>
+
+        <div class="row">
+            @Html.ActionLink("Back to Movies", "Index", "Movies", null, new { @class = "btn btn-default" })
+        </div>
+
+        <div id="gallery" class="hidden">
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/first-child-collapsed-in")
+    @Scripts.Render("~/bundles/activate-fancybox-gallery")
+    @Scripts.Render("~/bundles/activate-fancybox-trailer")
+}

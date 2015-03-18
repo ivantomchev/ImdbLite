@@ -1,0 +1,117 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Movies.IMovieInputModel
+@using (Html.BeginForm("Update", "Movies", new { area = GlobalConstants.AdminArea }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+        <div class="col-md-8">
+            <div id="container" class="row">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.Image(Model.Poster.Content, Model.Poster.Type, Model.Title, new { @class = "img-responsive", id = "image-preview" })
+                        @Html.HiddenFor(model => Model.Poster.Type)
+                        @Html.HiddenFor(model => model.Poster.Content)
+                        @Html.EditorFor(model => model.FileToUpload)
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-md-offset-2">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.EditorFor(m => m.Title)
+                    @Html.EditorFor(m => m.Duration)
+                    @Html.EditorFor(m => m.ReleaseDate)
+                    @Html.EditorFor(m => m.DVDReleaseDate)
+                    @Html.EditorFor(m => m.OfficialTrailer)
+                    <div class="form-group">
+                        <div>@Html.LabelFor(m => m.selectedGenres)</div>
+                        @Html.ListBoxFor(m => m.selectedGenres, Model.GenresList, new { @class = "form-control chzn-select genres", @data_placeholder = "Choose Genre" })
+                        <div>
+                            @Html.ValidationMessageFor(model => model.selectedGenres, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.selectedProducers)
+                        </div>
+                        @Html.ListBoxFor(m => m.selectedProducers, Model.Celebrities, new { @class = "form-control chzn-select castmembers", @data_placeholder = "Choose Celebrity" })
+                        <div>
+                            @Html.ValidationMessageFor(model => model.selectedProducers, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.selectedDirectors)
+                        </div>
+                        @Html.ListBoxFor(m => m.selectedDirectors, Model.Celebrities, new { @class = "form-control chzn-select castmembers", @data_placeholder = "Choose Celebrity" })
+                        <div>
+                            @Html.ValidationMessageFor(model => model.selectedDirectors, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.selectedWriters)
+                        </div>
+                        @Html.ListBoxFor(m => m.selectedWriters, Model.Celebrities, new { @class = "form-control chzn-select castmembers", @data_placeholder = "Choose Celebrity" })
+                        <div>
+                            @Html.ValidationMessageFor(model => model.selectedWriters, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.selectedCinemas)
+                        </div>
+                        @Html.ListBoxFor(m => m.selectedCinemas, Model.CinemasList, new { @class = "form-control chzn-select", @data_placeholder = "Choose Cinema" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-11">
+                    @Html.EditorFor(m => m.StoryLine)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="container" class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div>
+                            @Html.LabelFor(m => m.Characters)
+                        </div>
+                        @Html.ListBoxFor(m => m.selectedCharacters, Model.Celebrities, new { @class = "form-control chzn-select", @data_placeholder = "Choose Celebrity" })
+                        <div>
+                            @Html.ValidationMessageFor(model => model.selectedCharacters, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div id="character-list">
+                        @Html.Partial("_CharactersPartial", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="form-horizontal">
+        <div class="container row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.Submit(new { value = "Save", @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section scripts{
+    @Scripts.Render("~/bundles/movies-create-server-side")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/picture-preview")
+}
+

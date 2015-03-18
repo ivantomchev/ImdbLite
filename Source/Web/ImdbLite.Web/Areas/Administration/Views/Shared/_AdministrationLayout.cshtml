@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Chosen")
+    @Scripts.Render("~/bundles/fancybox")
+    @Scripts.Render("~/bundles/page-go-top")
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+    @Scripts.Render("~/bundles/jquery.unobtrusive-ajax")
+    @Styles.Render("~/Content/custom")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("ImdbLite", "Index", "Home", new { area = string.Empty }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Movies", "Index", "Movies")</li>
+                    <li>@Html.ActionLink("Celebrities", "Index", "Celebrities")</li>
+                    <li>@Html.ActionLink("Cinemas", "Index", "Cinemas")</li>
+                    <li>@Html.ActionLink("Articles", "Index", "Articles")</li>
+                    <li>@Html.ActionLink("Gallery", "Index", "Photos")</li>
+                    <li>@Html.ActionLink("Genres", "Index", "Genres")</li>
+                    <li>@Html.ActionLink("Contacts", "Index", "Contacts")</li>
+                    <li>@Html.ActionLink("Cities", "Index", "Cities")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Partial("_GoToTopPartial")
+    </div>
+    <div class="container panel-body">
+        @RenderBody()
+        <hr />
+        @Html.Partial("_FooterPartial")
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

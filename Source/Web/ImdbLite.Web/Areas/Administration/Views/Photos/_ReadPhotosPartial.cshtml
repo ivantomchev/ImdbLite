@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ImdbLite.Web.Areas.Administration.ViewModels.Photos.PhotoIndexViewModel>
+
+<table class="table table-striped table-responsive table-hover">
+    <thead>
+        <tr class="info">
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedOn)
+            </th>
+            <th class="danger">Controls</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>  
+                    <a class="fancybox" href="@Url.Content(item.Url)" title="@item.Title">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ModifiedOn)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Update", "Photos", new { area = GlobalConstants.AdminArea, id = item.Id }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Delete", "Delete", "Photos", new { area = GlobalConstants.AdminArea, id = item.Id }, new { data_modal = "", @class = "btn btn-default" })
+                    @Html.ActionLink("Permanent Delete", "ActualDelete", "Photos", new { area = GlobalConstants.AdminArea, id = item.Id }, new { data_modal = "", @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_PaginationPartial")
+
+@Scripts.Render("~/bundles/activate-fancybox-single-image")
+@Scripts.Render("~/bundles/item-delete")

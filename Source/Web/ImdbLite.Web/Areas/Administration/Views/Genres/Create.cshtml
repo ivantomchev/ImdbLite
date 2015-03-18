@@ -1,0 +1,26 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreInputModel
+@using (Html.BeginForm("Create", "Genres", new { area = GlobalConstants.AdminArea }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="container" class="form-horizontal">
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        <div class="row container">
+            <div class="col-md-4">
+                @Html.EditorFor(m => m.Name)
+            </div>
+        </div>
+
+        <div class="row container">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.Submit("Save", new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

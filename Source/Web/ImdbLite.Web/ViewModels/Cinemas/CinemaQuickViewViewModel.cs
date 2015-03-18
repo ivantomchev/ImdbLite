@@ -1,0 +1,36 @@
+﻿namespace ImdbLite.Web.ViewModels.Cinemas
+{
+    using AutoMapper;
+    using ImdbLite.Data.Models;
+    using ImdbLite.Web.Infrastructure.Mapping;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    public class CinemaQuickViewViewModel : IMapFrom<Cinema>,IHaveCustomMappings
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Address { get; set; }
+
+        [Display(Name = "Web Address")]
+        public string WebAddress { get; set; }
+
+        public string City { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "E-Mail")]
+        public string EMail { get; set; }
+
+        public string GoogleMapsUrl { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<Cinema, CinemaQuickViewViewModel>()
+                .ForMember(d => d.City, opt => opt.MapFrom(s => s.City.Name));
+        }
+    }
+}

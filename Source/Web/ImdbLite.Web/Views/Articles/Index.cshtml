@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Articles.ArticleIndexViewModel>
+@{
+    ViewBag.Title = "Articles";
+}
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                @ViewBag.Title
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div id="update-target" class="col-md-12">
+            @Html.Action("ReadData", "Articles")
+        </div>
+
+    </div>
+
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/scroll-to-top")
+}

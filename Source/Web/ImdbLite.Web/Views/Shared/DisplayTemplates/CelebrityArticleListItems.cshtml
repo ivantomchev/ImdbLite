@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Celebrities.CelebrityArticleListItemViewModel>
+
+@if (Model.Count() != 0)
+{
+    <div class="panel @ViewData["class"]">
+        <div class="panel-heading" data-toggle="collapse" data-target="#celebrities" aria-expanded="false">
+            <h3 class="panel-title text-uppercase pointer">@ViewData["title"]</h3>
+        </div>
+        <div class="panel-body collapse collection" id="celebrities">
+            <table class="table table-striped table-hover">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row">
+                            <td class="col-md-11">@Html.ActionLink(item.FullName, "Details", "Celebrities", new { id = item.Id }, null)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

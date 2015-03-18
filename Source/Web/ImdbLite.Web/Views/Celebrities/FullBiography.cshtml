@@ -1,0 +1,49 @@
+﻿@model ImdbLite.Web.ViewModels.Celebrities.CelebrityFullBiographyViewModel
+
+
+<div class="container">
+
+    <div class="col-md-9">
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">Personal Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-4">
+                        @Html.Image(Model.Photo.Content, Model.Photo.Type)
+                    </div>
+
+                    <div class="col-md-8">
+                        <h4>@Html.DisplayFor(model => model.FullName)</h4>
+                        <ul class="list-unstyled">
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.BirthDate):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.BirthDate)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.Age):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.Age)</div></li>
+                            <li class="row"><div class="text-info col-md-3">@Html.DisplayNameFor(m => m.BirthName):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.BirthName)</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">@Html.DisplayNameFor(m => m.Biography)</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        @Html.DisplayFor(m => m.Biography)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.ActionLink("Back to Celebrities", "Index", "Celebrities", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Back to Details", "Details", "Celebrities", new { id = Model.Id }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+

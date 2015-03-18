@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Articles.ArticleListItemsViewModel>
+
+@if (Model.Count() != 0)
+{
+    <div class="panel @ViewData["class"]">
+        <div class="panel-heading">
+            <h3 class="panel-title text-uppercase">@ViewData["title"]</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="row">
+                            <td class="col-md-10">
+                                @Html.ActionLink(item.Title, "Details", "Articles", new { id = item.Id }, null)
+                            </td>
+                            <td class="col-md-2 right">by @Html.DisplayFor(m => item.WrittenBy)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer text-center">
+            @Html.ActionLink("Go To Articles", "Index", "Articles",null, new { @class = "btn btn-success" })
+        </div>
+    </div>
+}

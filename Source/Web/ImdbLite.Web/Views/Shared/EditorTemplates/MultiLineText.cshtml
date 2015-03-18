@@ -1,0 +1,7 @@
+﻿@model string
+
+<div class="form-group">
+    @Html.LabelFor(model => model)
+    @Html.TextAreaFor(model => model, new { @class = "form-control text-box multi-line",rows="12" })
+    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+</div>

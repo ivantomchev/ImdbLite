@@ -1,0 +1,45 @@
+﻿@model ImdbLite.Web.ViewModels.Articles.ArticleDetailsViewModel
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="panel panel-primary">
+                @Html.Image(Model.Photo.Content, Model.Photo.Type, null, new { @class = "img-responsive" })
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Html.DisplayFor(m => m.Title)</h3>
+                </div>
+                <div class="panel-body">
+                    <article>
+                        @Html.DisplayFor(m => m.Content)
+                    </article>
+                    <div class="col-md-12 text-right">
+                        <span>@Html.DisplayNameFor(m => m.WrittenBy) </span>
+                        <span class="text-italic">@Html.DisplayFor(m => m.WrittenBy)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            @Html.DisplayFor(m => m.RelatedMovies, new { @class = "panel-primary", title = Html.DisplayNameFor(m => m.RelatedMovies) })
+        </div>
+        <div class="col-md-6">
+            @Html.DisplayFor(m => m.RelatedCelebrities, new { @class = "panel-primary", title = "Related Celebrities" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Back to Articles", "Index", "Articles", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/first-child-collapsed-in")
+}

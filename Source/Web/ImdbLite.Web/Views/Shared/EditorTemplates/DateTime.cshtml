@@ -1,0 +1,18 @@
+﻿@model Nullable<DateTime>
+
+@*@Value = Model != null ? Model.Value.Date.ToShortDateString() : string.Empty*@
+<div class="form-group">
+    @Html.LabelFor(model => model)
+    @Html.TextBoxFor(model => model, new { @class = "form-control datepicker", @Value = Model != new DateTime() ? Model.Value.Date.ToShortDateString() : string.Empty })
+    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+
+
+</div>
+
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker({
+            format: 'mm/dd/yyyy',
+        }); //Initialise any date pickers
+    });
+</script>

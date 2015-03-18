@@ -1,0 +1,9 @@
+﻿@model string
+
+@{string placeholder = "Enter " + @Html.DisplayNameFor(model => model);}
+
+<div class="form-group">
+    @Html.LabelFor(model => model)
+    @Html.TextBoxFor(model => model, new { @class = "form-control text-box single-line", placeholder = placeholder })
+    @Html.ValidationMessageFor(model => model, "", new { @class = "text-danger" })
+</div>

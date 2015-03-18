@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CAEA631A-FB87-4B6E-A564-53BC533C8431}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ImdbLite.Web</RootNamespace>
+    <AssemblyName>ImdbLite.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Facebook.2.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Google.2.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Twitter.2.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\ArticlesController.cs" />
+    <Compile Include="Areas\Administration\Controllers\Base\AdminController.cs" />
+    <Compile Include="Areas\Administration\Controllers\CelebritiesController.cs" />
+    <Compile Include="Areas\Administration\Controllers\CinemasController.cs" />
+    <Compile Include="Areas\Administration\Controllers\CitiesController.cs" />
+    <Compile Include="Areas\Administration\Controllers\ContactsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\GenresController.cs" />
+    <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Administration\Controllers\MoviesController.cs" />
+    <Compile Include="Areas\Administration\Controllers\PhotosController.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Articles\ArticleDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Articles\ArticleIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Articles\ArticleInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Articles\ArticleUpdateModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\AutomapperMappingRegister.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Base\NotDeletedIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\CastMembers\CastMemberInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Celebrities\CelebrityDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Celebrities\CelebrityIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Celebrities\CelebrityInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Celebrities\CelebrityUpdateModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Characters\CharacterInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Characters\CharacterViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cinemas\CinemaDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cinemas\CinemaIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cinemas\CinemaInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cities\CityIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cities\CityInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Cities\CityUpdateModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Contacts\ContactDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Contacts\ContactIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Contacts\ContactInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Genres\GenreIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Genres\GenreInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Genres\GenreUpdateModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Movies\IMovieInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Movies\MovieDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Movies\MovieIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Movies\MovieInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Movies\MovieUpdateModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Photos\PhotoDeleteViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Photos\PhotoIndexViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Photos\PhotoInputModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Photos\PhotoUpdateModel.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArticlesController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseEntityController.cs" />
+    <Compile Include="Controllers\CelebritiesController.cs" />
+    <Compile Include="Controllers\CinemasController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Account\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\Account\ExternalLoginListViewModel.cs" />
+    <Compile Include="ViewModels\Account\ForgotPasswordViewModel.cs" />
+    <Compile Include="ViewModels\Account\ForgotViewModel.cs" />
+    <Compile Include="ViewModels\Account\LoginViewModel.cs" />
+    <Compile Include="ViewModels\Account\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\Account\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\Account\SendCodeViewModel.cs" />
+    <Compile Include="ViewModels\Account\VerifyCodeViewModel.cs" />
+    <Compile Include="ViewModels\Articles\ArticleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Articles\ArticleHomePageCarouselViewModel.cs" />
+    <Compile Include="ViewModels\Articles\ArticleIndexViewModel.cs" />
+    <Compile Include="ViewModels\Articles\ArticleListItemsViewModel.cs" />
+    <Compile Include="ViewModels\CastMember\CastMemberCelebrityViewModel.cs" />
+    <Compile Include="ViewModels\CastMember\CastMemberMovieViewModel.cs" />
+    <Compile Include="ViewModels\Celebrities\CelebrityArticleListItemViewModel.cs" />
+    <Compile Include="ViewModels\Celebrities\CelebrityFullBiographyViewModel.cs" />
+    <Compile Include="ViewModels\Character\CharacterCelebrityViewModel.cs" />
+    <Compile Include="ViewModels\Character\CharacterMovieViewModel.cs" />
+    <Compile Include="ViewModels\Celebrities\CelebrityDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Celebrities\CelebrityGridViewModel.cs" />
+    <Compile Include="ViewModels\Cinemas\CinemaDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Cinemas\CinemaQuickViewViewModel.cs" />
+    <Compile Include="ViewModels\Cinemas\CinemaMovieDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Cinemas\CinemasIndexViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactIndexViewModel.cs" />
+    <Compile Include="ViewModels\Contacts\ContactQuickViewViewModel.cs" />
+    <Compile Include="ViewModels\Home\HomePageViewModel.cs" />
+    <Compile Include="ViewModels\Manage\AddPhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\Manage\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModels\Manage\ConfigureTwoFactorViewModel.cs" />
+    <Compile Include="ViewModels\Manage\FactorViewModel.cs" />
+    <Compile Include="ViewModels\Manage\IndexViewModel.cs" />
+    <Compile Include="ViewModels\Manage\ManageLoginsViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Manage\SetPasswordViewModel.cs" />
+    <Compile Include="ViewModels\Manage\VerifyPhoneNumberViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MovieDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MovieCinemaListItemViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MovieHomePageOnTheathersViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MovieHomePageTrailersViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MoviesGridViewModel.cs" />
+    <Compile Include="ViewModels\Photos\PhotoIndexViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.darkly.css" />
+    <Content Include="Content\bootstrap.darkly.min.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen-sprite.png" />
+    <Content Include="Content\chosen.css" />
+    <Content Include="Content\datepicker.css" />
+    <Content Include="Content\datepicker3.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Files\Images\Common\no-image-featured-image.png" />
+    <Content Include="Files\Images\Common\No_Image.png" />
+    <Content Include="Files\Images\Common\No_Photo.jpg" />
+    <Content Include="Files\Images\Common\Your_Photo_Here.jpg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Administration\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Administration\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\_AdministrationLayout.cshtml" />
+    <Content Include="Areas\Administration\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\_ModalDialogPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Celebrities\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Celebrities\_ReadCelebritiesPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Celebrities\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Celebrities\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Celebrities\_DeleteCelebrityPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Genres\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Genres\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Genres\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Genres\_ReadGenresPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Genres\_DeleteGenrePartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\CreateOld.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\_ReadMoviesPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\_DeleteMoviePartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\_CharactersPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Photos\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Photos\_ReadPhotosPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Photos\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Photos\_DeletePhotoPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Photos\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Cinemas\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Cinemas\_ReadCinemasPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Cinemas\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Cinemas\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Cinemas\_DeleteCinemasPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Movies\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Contacts\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Contacts\_ReadContactsPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Contacts\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Contacts\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Contacts\_DeleteContactPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Articles\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Articles\_ReadArticlesPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Articles\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Articles\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Articles\_DeleteArticlePartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Cities\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Cities\_ReadCitiesPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Cities\Update.cshtml" />
+    <Content Include="Areas\Administration\Views\Cities\Create.cshtml" />
+    <Content Include="Areas\Administration\Views\Cities\_DeleteCityPartial.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Chosen\chosen-sprite%402x.png" />
+    <Content Include="Scripts\Chosen\chosen-sprite.png" />
+    <Content Include="Scripts\Chosen\chosen.css" />
+    <Content Include="Scripts\Chosen\chosen.jquery.js" />
+    <Content Include="Scripts\Chosen\chosen.jquery.min.js" />
+    <Content Include="Scripts\Chosen\chosen.min.css" />
+    <Content Include="Scripts\Chosen\chosen.proto.js" />
+    <Content Include="Scripts\Chosen\chosen.proto.min.js" />
+    <Content Include="Scripts\Chosen\docsupport\chosen.png" />
+    <Content Include="Scripts\Chosen\docsupport\oss-credit.png" />
+    <Content Include="Scripts\Chosen\docsupport\prism.css" />
+    <Content Include="Scripts\Chosen\docsupport\prism.js" />
+    <Content Include="Scripts\Chosen\docsupport\style.css" />
+    <Content Include="Scripts\Chosen\index.html" />
+    <Content Include="Scripts\Chosen\index.proto.html" />
+    <Content Include="Scripts\Chosen\options.html" />
+    <Content Include="Scripts\custom\activate-chosen.js" />
+    <Content Include="Scripts\custom\activate-fancybox-single-image.js" />
+    <Content Include="Scripts\custom\activate-fancybox-trailer.js" />
+    <Content Include="Scripts\custom\celebrities-delete.js" />
+    <Content Include="Scripts\custom\activate-fancybox-gallery.js" />
+    <Content Include="Scripts\custom\cinema-quick-view.js" />
+    <Content Include="Scripts\custom\cinemas-delete.js" />
+    <Content Include="Scripts\custom\first-child-collapsed-in.js" />
+    <Content Include="Scripts\custom\genres-delete.js" />
+    <Content Include="Scripts\custom\item-delete.js" />
+    <Content Include="Scripts\custom\movies-create-server-side.js" />
+    <Content Include="Scripts\custom\movies-delete.js" />
+    <Content Include="Scripts\custom\page-go-top.js" />
+    <Content Include="Scripts\custom\photos-delete.js" />
+    <Content Include="Scripts\custom\picture-preview.js" />
+    <Content Include="Scripts\custom\scroll-to-top.js" />
+    <Content Include="Scripts\fancybox\blank.gif" />
+    <Content Include="Scripts\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Scripts\fancybox\fancybox_loading.gif" />
+    <Content Include="Scripts\fancybox\fancybox_overlay.png" />
+    <Content Include="Scripts\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Scripts\fancybox\fancybox_sprite.png" />
+    <Content Include="Scripts\fancybox\helpers\fancybox_buttons.png" />
+    <Content Include="Scripts\fancybox\helpers\jquery.fancybox-buttons.css" />
+    <Content Include="Scripts\fancybox\helpers\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\fancybox\helpers\jquery.fancybox-media.js" />
+    <Content Include="Scripts\fancybox\helpers\jquery.fancybox-thumbs.css" />
+    <Content Include="Scripts\fancybox\helpers\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\fancybox\jquery.fancybox.css" />
+    <Content Include="Scripts\fancybox\jquery.fancybox.js" />
+    <Content Include="Scripts\fancybox\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.bs.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.en-GB.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.eu.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fo.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr-CH.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.hy.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it-CH.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kh.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr-latin.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sr.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\Modal\modalform.js" />
+    <Content Include="Scripts\Modal\modalformOriginal.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl-carousel\AjaxLoader.gif" />
+    <Content Include="Scripts\owl-carousel\grabbing.png" />
+    <Content Include="Scripts\owl-carousel\owl.carousel.css" />
+    <Content Include="Scripts\owl-carousel\owl.carousel.js" />
+    <Content Include="Scripts\owl-carousel\owl.carousel.min.js" />
+    <Content Include="Scripts\owl-carousel\owl.theme.css" />
+    <Content Include="Scripts\owl-carousel\owl.transitions.css" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\UploadFile.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SingleLineText.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MultiLineText.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
+    <Content Include="Views\Shared\_ModalDialogPartial.cshtml" />
+    <Content Include="Views\Celebrities\Index.cshtml" />
+    <Content Include="Views\Celebrities\_CelebrityGridPartial.cshtml" />
+    <Content Include="Views\Celebrities\Details.cshtml" />
+    <Content Include="Views\Celebrities\_CharacterListPartial.cshtml" />
+    <Content Include="Views\Celebrities\_CastMembersListPartial.cshtml" />
+    <Content Include="Views\Movies\_MoviesGridPartial.cshtml" />
+    <Content Include="Views\Movies\Index.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
+    <Content Include="Views\Movies\_MovieCastPartial.cshtml" />
+    <Content Include="Views\Shared\_GalleryPartial.cshtml" />
+    <Content Include="Views\Shared\_PaginationPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SmallMultiLineText.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DurationInMinutes.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Characters.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Producers.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Directors.cshtml" />
+    <Content Include="Views\Celebrities\FullBiography.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Writers.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Cast.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\GenresList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CastMembersList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Cinemas.cshtml" />
+    <Content Include="Views\Shared\_GoToTopPartial.cshtml" />
+    <Content Include="Views\Cinemas\Index.cshtml" />
+    <Content Include="Views\Cinemas\_CinemaQuickViewPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CinemasList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MovieCinemaListItems.cshtml" />
+    <Content Include="Views\Cinemas\Details.cshtml" />
+    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Contacts\_ContactQuickViewPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ContactsList.cshtml" />
+    <Content Include="Views\Shared\_FooterPartial.cshtml" />
+    <Content Include="Views\Articles\Index.cshtml" />
+    <Content Include="Views\Articles\_ArticlesGridPartial.cshtml" />
+    <Content Include="Views\Articles\Details.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CelebrityArticleListItems.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ArticleListItems.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\HomePageArticlePanel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\HomePageMoviesPanel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\HomePageCarouselPanel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\HomePageTrailersPanel.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Files\Images\Gallery\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Photos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\ImdbLite.Common\ImdbLite.Common.csproj">
+      <Project>{a965e348-87b6-482d-8bf4-5b9197467bb7}</Project>
+      <Name>ImdbLite.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\ImdbLite.Data.Common\ImdbLite.Data.Common.csproj">
+      <Project>{45e377e4-121e-4f13-aaa5-a75f04034c83}</Project>
+      <Name>ImdbLite.Data.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\ImdbLite.Data.Models\ImdbLite.Data.Models.csproj">
+      <Project>{bb8a3f8c-09e0-412a-9f7f-482f02c248a2}</Project>
+      <Name>ImdbLite.Data.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\ImdbLite.Data\ImdbLite.Data.csproj">
+      <Project>{da66c59f-5080-4052-9945-7e60b67e50a7}</Project>
+      <Name>ImdbLite.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImdbLite.Web.Infrastructure\ImdbLite.Web.Infrastructure.csproj">
+      <Project>{824821ef-b6be-4a39-a59d-ee30a5c90670}</Project>
+      <Name>ImdbLite.Web.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>6951</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:6951/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,8 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Photos.PhotoIndexViewModel>
+
+@foreach (var item in Model)
+{
+    <a class="gallery" rel="gallery" href="@Url.Content(item.Url)">
+        @Html.Image(Url.Content(item.Url), new { @class = "img-responsive" })
+    </a>
+}

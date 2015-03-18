@@ -1,0 +1,13 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.CastMember.CastMemberCelebrityViewModel>
+
+<table class="table table-striped table-hover">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="row">
+                <td class="col-md-11">@Html.ActionLink(item.MovieTitle, "Details", "Movies", new { id = item.MovieId }, null)</td>
+                <td class="col-md-2">@Html.DisplayFor(m => item.MovieReleaseDate)</td>
+            </tr>
+        }
+    </tbody>
+</table>

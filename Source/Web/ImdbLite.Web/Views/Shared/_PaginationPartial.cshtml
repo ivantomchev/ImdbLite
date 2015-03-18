@@ -1,0 +1,33 @@
+﻿<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pagination">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li>
+                    @Ajax.ActionLink("<<", "ReadData", new { Id = ViewBag.PreviousPage }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "update-target", InsertionMode = InsertionMode.Replace, OnSuccess = "scrollTop()" })
+                </li>
+            }
+            @for (int i = 1; i <= ViewBag.Pages; i++)
+            {
+                if (ViewBag.CurrentPage == i)
+                {
+                    <li class="active">
+                        @Ajax.ActionLink(i.ToString(), "ReadData", new { Id = i }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "update-target", InsertionMode = InsertionMode.Replace })
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        @Ajax.ActionLink(i.ToString(), "ReadData", new { Id = i }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "update-target", InsertionMode = InsertionMode.Replace, OnSuccess = "scrollTop()" })
+                    </li>
+                }
+            }
+            @if (ViewBag.CurrentPage < ViewBag.Pages)
+            {
+                <li>
+                    @Ajax.ActionLink(">>", "ReadData", new { Id = ViewBag.NextPage }, new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "update-target", InsertionMode = InsertionMode.Replace, OnSuccess = "scrollTop()" })
+                </li>
+            }
+        </ul>
+    </div>
+</div>

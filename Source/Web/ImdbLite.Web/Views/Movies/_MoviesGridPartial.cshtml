@@ -1,0 +1,28 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Movies.MoviesGridViewModel>
+
+<div class="row">
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var item = Model.ElementAt(i);
+
+        <div class="col-md-3 col-sm-4 col-sx-12">
+            <a href="@Url.Action("Details", "Movies", new { Id = item.Id })">
+                @Html.Image(item.Poster.Content, item.Poster.Type, null, new { @class = "img-responsive" })
+                <div class="text-center">
+                    @Html.DisplayFor(m => item.Title)
+                </div>
+            </a>
+        </div>
+
+        if (i > 0 && (i + 1) % 4 == 0)
+        {
+
+            @:</div>
+            @:<div class="row">
+        }
+    }
+
+</div>
+
+@Html.Partial("_PaginationPartial")

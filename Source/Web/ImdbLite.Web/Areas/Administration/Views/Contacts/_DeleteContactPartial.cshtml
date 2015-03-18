@@ -1,0 +1,23 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Contacts.ContactDeleteViewModel
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.Title)
+    @Html.HiddenFor(m => m.Id)
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModal-label">Delete</h4>
+    </div>
+    <div class="modal-body">
+        <p class="danger text-center">WARNING</p>
+        <p>Are you sure you want to delete @Model.Title Permenantly ?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" value="Delete" class="btn btn-default" />
+    </div>
+}
+
+

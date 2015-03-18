@@ -1,0 +1,47 @@
+﻿@model ImdbLite.Web.ViewModels.Cinemas.CinemaDetailsViewModel
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">Information</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        <li class="row"><div class="text-info col-md-5">@Html.DisplayNameFor(m => m.Name):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.Name)</div></li>
+                        <li class="row"><div class="text-info col-md-5">@Html.DisplayNameFor(m => m.Address):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.Address)</div></li>
+                        <li class="row"><div class="text-info col-md-5">@Html.DisplayNameFor(m => m.PhoneNumber):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.PhoneNumber)</div></li>
+                        <li class="row"><div class="text-info col-md-5">@Html.DisplayNameFor(m => m.WebAddress):</div> <div class="col-md-pull-1 col-md-4">@Html.DisplayFor(m => m.WebAddress)</div></li>
+                    </ul>
+                </div>
+            </div>
+
+            @Html.DisplayFor(m => m.Movies, new { @class = "panel-primary", title = @Html.DisplayNameFor(m => m.Movies) })
+        </div>
+
+        <div class="col-md-7">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase">@Html.DisplayNameFor(m => m.GoogleMapsUrl)</h3>
+                </div>
+                <div class="panel-body">
+                    <iframe width="100%" height="500px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="@Model.GoogleMapsUrl"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ActionLink("Back to Cinemas", "Index", "Cinemas", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/first-child-collapsed-in")
+}

@@ -1,0 +1,48 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Photos.PhotoInputModel
+
+@using (Html.BeginForm("Create", "Photos", new { area = GlobalConstants.AdminArea }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+        <div class="row container">
+
+            <div class="col-md-7">
+                <div class="form-group">
+                    @Html.Image(Url.Content("~/Files/Images/Common/no-image-featured-image.png"), new { @class = "img-responsive", id = "image-preview" })
+                    @Html.EditorFor(model => model.FileToUpload)
+                </div>
+            </div>
+
+            <div class="col-md-4 col-md-offset-1">
+                @Html.EditorFor(m => m.Title)
+
+                <div class="form-group">
+                    <div>@Html.LabelFor(m => m.selectedCelebrities)</div>
+                    @Html.ListBoxFor(m => m.selectedCelebrities, Model.CelebritiesSelectList, new { @class = "form-control chzn-select genres", @data_placeholder = "Choose Celebrities" })
+                </div>
+                <div class="form-group">
+                    <div>@Html.LabelFor(m => m.selectedMovies)</div>
+                    @Html.ListBoxFor(m => m.selectedMovies, Model.MoviesSelectList, new { @class = "form-control chzn-select castmembers", @data_placeholder = "Choose Movies" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row container">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.Submit(new { value = "Save", @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/picture-preview")
+    @Scripts.Render("~/bundles/activate-chosen")
+    @Scripts.Render("~/bundles/jqueryval")
+}

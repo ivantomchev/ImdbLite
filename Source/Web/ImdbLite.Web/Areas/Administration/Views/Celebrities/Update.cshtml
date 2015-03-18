@@ -1,0 +1,32 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Celebrities.CelebrityUpdateModel
+@using (Html.BeginForm("Update", "Celebrities", new { area = GlobalConstants.AdminArea }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="container" class="form container-fluid">
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        <div class="col-md-5">
+            <div class="form-group">
+                @Html.Image(Model.Photo.Content, Model.Photo.Type, Model.FullName, new { @class = "img-responsive", id = "image-preview" })
+                @Html.HiddenFor(model => Model.Photo.Type)
+                @Html.HiddenFor(model => model.Photo.Content)
+            </div>
+            @Html.EditorFor(model => model.FileToUpload)
+        </div>
+        <div class="col-md-6">
+            @Html.EditorFor(m => m.FirstName)
+            @Html.EditorFor(m => m.LastName)
+            @Html.EditorFor(m => m.BirthName)
+            @Html.EditorFor(m => m.BirthDate)
+            @Html.EditorFor(m => m.Biography)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Submit(new { value = "Save", @class = "btn btn-primary" })
+    </div>
+
+}
+@section scripts{
+    @Scripts.Render("~/bundles/picture-preview")
+    @Scripts.Render("~/bundles/jqueryval")
+}

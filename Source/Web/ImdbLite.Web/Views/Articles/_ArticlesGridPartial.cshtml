@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Articles.ArticleIndexViewModel>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-sm-6">
+            <a href="@Url.Action("Details", "Articles", new { Id = item.Id })" class="text-white">
+                <div class="panel-info-custom">
+                    <div>
+                        @Html.Image(item.Photo.Content, item.Photo.Type, null, new { @class = "img-responsive" })
+                    </div>
+                    <div class="panel-footer panel-footer-info">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.DisplayFor(m => item.Title)
+                            </div>
+                        </div>
+                        <div class="text-right row">
+                            <div class="col-md-12">
+                                <span>@Html.DisplayNameFor(m => m.WrittenBy) </span>
+                                <span class="text-italic">@Html.DisplayFor(m => item.WrittenBy)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+
+@Html.Partial("_PaginationPartial")

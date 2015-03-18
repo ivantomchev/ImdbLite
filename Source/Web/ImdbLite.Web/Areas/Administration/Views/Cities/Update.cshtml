@@ -1,0 +1,28 @@
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Cities.CityUpdateModel
+
+@using (Html.BeginForm("Create", "Cities", new { area = GlobalConstants.AdminArea }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="container" class="form-horizontal">
+        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        <div class="row container">
+            <div class="col-md-4">
+                @Html.HiddenFor(m => m.Id)
+                @Html.EditorFor(m => m.Name)
+            </div>
+        </div>
+
+        <div class="row container">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.Submit("Save", new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
