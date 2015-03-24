@@ -82,6 +82,11 @@
             get { return this.GetDeletableEntityRepository<Article>(); }
         }
 
+        public IDeletableEntityRepository<Vote> Votes
+        {
+            get { return this.GetDeletableEntityRepository<Vote>(); }
+        }
+
         /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>

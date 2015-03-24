@@ -34,6 +34,8 @@
 
         IDbSet<ArticlePhoto> ArticlePhotos { get; set; }
 
+        IDbSet<Vote> Votes { get; set; }
+
         int SaveChanges();
 
         void Dispose();

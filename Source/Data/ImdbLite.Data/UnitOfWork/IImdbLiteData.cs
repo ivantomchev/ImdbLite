@@ -35,6 +35,8 @@
 
         IDeletableEntityRepository<Article> Articles { get; }
 
+        IDeletableEntityRepository<Vote> Votes { get; }
+
         int SaveChanges();
     }
 }

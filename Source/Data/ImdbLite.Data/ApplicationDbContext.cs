@@ -48,6 +48,8 @@
 
         public virtual IDbSet<ArticlePhoto> ArticlePhotos { get; set; }
 
+        public virtual IDbSet<Vote> Votes { get; set; }
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();

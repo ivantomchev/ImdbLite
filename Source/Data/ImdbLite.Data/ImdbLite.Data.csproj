@@ -66,6 +66,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\ImdbLite.Common\ImdbLite.Common.csproj">
+      <Project>{a965e348-87b6-482d-8bf4-5b9197467bb7}</Project>
+      <Name>ImdbLite.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImdbLite.Data.Common\ImdbLite.Data.Common.csproj">
       <Project>{45e377e4-121e-4f13-aaa5-a75f04034c83}</Project>
       <Name>ImdbLite.Data.Common</Name>

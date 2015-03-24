@@ -226,6 +226,7 @@
     <Compile Include="Areas\Administration\ViewModels\Photos\PhotoUpdateModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
+    <Compile Include="Controllers\AuthorizedUserController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BaseEntityController.cs" />
     <Compile Include="Controllers\CelebritiesController.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\VotesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -282,6 +284,8 @@
     <Compile Include="ViewModels\Movies\MovieHomePageTrailersViewModel.cs" />
     <Compile Include="ViewModels\Movies\MoviesGridViewModel.cs" />
     <Compile Include="ViewModels\Photos\PhotoIndexViewModel.cs" />
+    <Compile Include="ViewModels\Votes\RatingViewModel.cs" />
+    <Compile Include="ViewModels\Votes\VoteInputModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -386,6 +390,7 @@
     <Content Include="Scripts\custom\photos-delete.js" />
     <Content Include="Scripts\custom\picture-preview.js" />
     <Content Include="Scripts\custom\scroll-to-top.js" />
+    <Content Include="Scripts\custom\submit-rate-form.js" />
     <Content Include="Scripts\fancybox\blank.gif" />
     <Content Include="Scripts\fancybox\fancybox_loading%402x.gif" />
     <Content Include="Scripts\fancybox\fancybox_loading.gif" />
@@ -401,6 +406,9 @@
     <Content Include="Scripts\fancybox\jquery.fancybox.css" />
     <Content Include="Scripts\fancybox\jquery.fancybox.js" />
     <Content Include="Scripts\fancybox\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\five-star-rating\star-rating.min.css" />
+    <Content Include="Scripts\five-star-rating\star-rating.min.js" />
+    <Content Include="Scripts\img\loading.gif" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -569,6 +577,8 @@
     <Content Include="Views\Shared\DisplayTemplates\HomePageMoviesPanel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\HomePageCarouselPanel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\HomePageTrailersPanel.cshtml" />
+    <Content Include="Views\Votes\_AddOrUpdateVotePartial.cshtml" />
+    <Content Include="Views\Movies\_MovieRatingPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

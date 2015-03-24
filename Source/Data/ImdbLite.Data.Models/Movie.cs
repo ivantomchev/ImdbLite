@@ -15,6 +15,7 @@
         private ICollection<Photo> gallery;
         private ICollection<Cinema> cinemas;
         private ICollection<Article> relatedArticles;
+        private ICollection<Vote> votes;
 
         public Movie()
         {
@@ -24,6 +25,7 @@
             this.gallery = new HashSet<Photo>();
             this.cinemas = new HashSet<Cinema>();
             this.relatedArticles = new HashSet<Article>();
+            this.votes = new HashSet<Vote>();
         }
 
         [Key]
@@ -121,6 +123,18 @@
             set
             {
                 this.relatedArticles = value;
+            }
+        }
+
+        public virtual ICollection<Vote> Votes
+        {
+            get
+            {
+                return this.votes;
+            }
+            set
+            {
+                this.votes = value;
             }
         }
     }

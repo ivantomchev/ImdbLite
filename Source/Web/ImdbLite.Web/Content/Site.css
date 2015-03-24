@@ -333,3 +333,11 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
 .chosen-container-single .chosen-single span{
     color:#333;
 }
+
+.rating-disabled {
+    cursor: default;
+}
+
+.vertical-align-center{
+    vertical-align:sub;
+}

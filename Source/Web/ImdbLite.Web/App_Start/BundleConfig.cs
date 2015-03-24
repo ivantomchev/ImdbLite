@@ -26,6 +26,7 @@ namespace ImdbLite.Web
                       "~/Scripts/fancybox/jquery.fancybox-thumbs.css",
                       "~/Scripts/owl-carousel/owl.carousel.css",
                       "~/Scripts/owl-carousel/owl.theme.css",
+                      "~/Scripts/five-star-rating/star-rating.min.css",
                       "~/Content/bootstrap.darkly.css",
                       "~/Content/datepicker3.css",
                       "~/Content/Site.css"));
@@ -54,6 +55,13 @@ namespace ImdbLite.Web
             //bundles.Add(new ScriptBundle("~/bundles/crudCelebrities").Include(
             //"~/Scripts/Modal/crudCelebrities.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/submit-rate-form").Include(
+                        "~/Scripts/custom/submit-rate-form.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/rating").Include(
+                        "~/Scripts/five-star-rating/star-rating.min.js"
+                ));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
                         "~/Scripts/bootstrap-datepicker.js"
                 ));
@@ -71,11 +79,11 @@ namespace ImdbLite.Web
             bundles.Add(new ScriptBundle("~/bundles/first-child-collapsed-in").Include(
             "~/Scripts/custom/first-child-collapsed-in.js"));
 
-            
+
             bundles.Add(new ScriptBundle("~/bundles/jquery.unobtrusive-ajax").Include(
             "~/Scripts/jquery.unobtrusive-ajax.js"
             ));
-            
+
             bundles.Add(new ScriptBundle("~/bundles/jquery.validate.unobtrusive").Include(
                 "~/Scripts/jquery.validate.js",
                 "~/Scripts/jquery.validate.unobtrusive.js"

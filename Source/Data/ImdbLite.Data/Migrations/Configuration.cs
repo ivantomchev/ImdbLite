@@ -5,6 +5,8 @@ namespace ImdbLite.Data.Migrations
     using System.Data.Entity.Migrations;
 
     using ImdbLite.Data.Models;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using ImdbLite.Common;
 
 
     internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
@@ -17,12 +19,16 @@ namespace ImdbLite.Data.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
-            //PopulateGenres(context);
+            PopulateRoles(context);
+            context.SaveChanges();
             //PopulateCities(context);
-
-            //context.SaveChanges();
-
             //base.Seed(context);
+        }
+
+        private static void PopulateRoles(ApplicationDbContext context)
+        {
+            context.Roles.AddOrUpdate(x => x.Name, new IdentityRole(GlobalConstants.AdminRole));
+            context.Roles.AddOrUpdate(x => x.Name, new IdentityRole(GlobalConstants.UserRole));
         }
 
         private static void PopulateGenres(ApplicationDbContext context)

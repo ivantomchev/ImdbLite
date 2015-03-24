@@ -1,0 +1,22 @@
+﻿@model ImdbLite.Web.ViewModels.Votes.VoteInputModel
+
+<div class="col-md-3">
+    <h4>
+        <label class="label label-primary text-uppercase vertical-align-center">
+            @Html.DisplayNameFor(m => m.Value)
+        </label>
+    </h4>
+</div>
+<div class="col-md-6">
+    @using (@Html.BeginForm("AddOrUpdateVote", "Votes", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m => m.VoteId)
+        @Html.HiddenFor(m => m.MovieId)
+        <input id="new-rating" class="rating" data-min="0" data-max="10" data-step="0.1" data-size="xs" data-show-clear="false" name="Value" value=@Model.Value>
+    }
+</div>
+
+
+

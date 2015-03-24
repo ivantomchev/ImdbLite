@@ -1,16 +1,19 @@
 ﻿namespace ImdbLite.Web.Controllers
 {
-    using ImdbLite.Data.UnitOfWork;
+    using System;
     using System.Linq;
     using System.Web.Mvc;
+
     using AutoMapper.QueryableExtensions;
 
-    using DbModel = ImdbLite.Data.Models.Movie;
-    using GridViewModel = ImdbLite.Web.ViewModels.Movies.MoviesGridViewModel;
-    using DetailedViewModel = ImdbLite.Web.ViewModels.Movies.MovieDetailsViewModel;
-    using ImdbLite.Web.ViewModels.Photos;
-    using System;
+    using ImdbLite.Data.UnitOfWork;
     using ImdbLite.Web.ViewModels.Articles;
+    using ImdbLite.Web.ViewModels.Photos;
+    using ImdbLite.Web.ViewModels.Votes;
+
+    using DbModel = ImdbLite.Data.Models.Movie;
+    using DetailedViewModel = ImdbLite.Web.ViewModels.Movies.MovieDetailsViewModel;
+    using GridViewModel = ImdbLite.Web.ViewModels.Movies.MoviesGridViewModel;
 
     public class MoviesController : BaseEntityController
     {
@@ -47,6 +50,14 @@
             var model = this.Data.Movies.GetById(id).Gallery.AsQueryable().Project().To<PhotoIndexViewModel>().ToList();
 
             return PartialView("_GalleryPartial", model);
+        }
+
+        public ActionResult GetMovieAvarageRating(int Id)
+        {
+            var model = new RatingViewModel();
+            model.Rating = this.Data.Movies.GetById(Id).Votes.Select(x => x.Value).DefaultIfEmpty(0).Average();
+
+            return PartialView("_MovieRatingPartial", model);
         }
 
         [HttpGet]

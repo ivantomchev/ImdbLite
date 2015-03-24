@@ -1,10 +1,7 @@
 ﻿@model ImdbLite.Web.ViewModels.Movies.MovieDetailsViewModel
 
-
 <div class="container">
-
     <div class="col-md-9">
-
         <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -13,10 +10,15 @@
                 <div class="panel-body">
                     <div class="col-md-4">
                         @Html.Image(Model.Poster.Content, Model.Poster.Type, null, new { @class = "img-responsive main-photo" })
+                        <div id="update-target">
+                            @Html.Action("GetMovieAvarageRating", "Movies", new { id = Model.Id })
+                        </div>
                     </div>
-
                     <div class="col-md-8">
                         <h4>@Html.DisplayFor(model => model.Title) (@Html.DisplayFor(m => m.Year))</h4>
+                        <div class="row">
+                            @Html.Action("GetCurrentUserRating", "Votes", new { id = Model.Id })
+                        </div>
                         <hr />
                         <ul class="list-unstyled">
                             @Html.DisplayFor(m => m.ProducedBy, new { title = @Html.DisplayNameFor(m => m.ProducedBy) })
@@ -37,7 +39,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading" data-toggle="collapse" data-target="#story-line" aria-expanded="false">
@@ -50,32 +51,27 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             @Html.DisplayFor(m => m.Cast, new { @class = "panel-primary" })
         </div>
-
         <div class="row">
             @Html.DisplayFor(m => m.Cinemas, new { @class = "panel-primary" })
         </div>
-
         <div class="row">
             @Html.DisplayFor(m => m.RelatedArticles, new { @class = "panel-primary", title = Html.DisplayNameFor(m => m.RelatedArticles) })
         </div>
-
         <div class="row">
             @Html.ActionLink("Back to Movies", "Index", "Movies", null, new { @class = "btn btn-default" })
         </div>
-
         <div id="gallery" class="hidden">
         </div>
     </div>
 </div>
 
-
-
 @section scripts{
     @Scripts.Render("~/bundles/first-child-collapsed-in")
     @Scripts.Render("~/bundles/activate-fancybox-gallery")
     @Scripts.Render("~/bundles/activate-fancybox-trailer")
+    @Scripts.Render("~/bundles/rating")
+    @Scripts.Render("~/bundles/submit-rate-form")
 }
