@@ -2,33 +2,21 @@
 @{
     ViewBag.Title = "Cinemas";
 }
-
-<div class="container">
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                @ViewBag.Title
-            </h1>
-        </div>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @ViewBag.Title
+        </h1>
     </div>
-
-    <div class="row">
-
-        <div class="col-md-7" id="update-target">
-            @Html.Action("QuickView", "Cinemas")
-        </div>
-
-        <div class="col-md-5">
-
-            @Html.DisplayFor(m => Model, "CinemasList")
-
-        </div>
-
-    </div>
-
 </div>
-
+<div class="row">
+    <div class="col-md-7" id="update-target">
+        @Html.Action("QuickView", "Cinemas")
+    </div>
+    <div class="col-md-5">
+        @Html.DisplayFor(m => Model, "CinemasList")
+    </div>
+</div>
 @section scripts{
     @Scripts.Render("~/bundles/cinema-quick-view")
 }

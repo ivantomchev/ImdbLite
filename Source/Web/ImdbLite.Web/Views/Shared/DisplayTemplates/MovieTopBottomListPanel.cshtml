@@ -1,5 +1,4 @@
-﻿@model IEnumerable<ImdbLite.Web.ViewModels.Movies.MovieCinemaListItemViewModel>
-
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Movies.MovieTopBottomListViewModel>
 @if (Model.Count() != 0)
 {
     <div class="panel @ViewData["class"]">
@@ -7,13 +6,14 @@
             <h3 class="panel-title text-uppercase pointer">@ViewData["title"]</h3>
         </div>
         <div class="panel-body">
-            <table class="table table-bottom-border table-striped table-hover">
+            <table class="table table-bottom-border table-hover table-baseline">
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr class="row">
-                            <td class="col-md-11">@Html.ActionLink(item.Title, "Details", "Movies", new { id = item.Id }, null)</td>
-                            <td class="col-md-2">@Html.DisplayFor(m => item.Year)</td>
+                            <td class="col-md-4">@Html.ActionLink(item.Title, "Details", "Movies", new { id = item.Id }, null)</td>
+                            <td class="col-md-1">@Html.DisplayFor(m => item.ReleaseDate)</td>
+                            <td class="col-md-7"><div class="rating-xxs text-right"><input id="input-1" class="rating" data-min="0" data-max="10" data-step="0.1" data-size="xs" data-show-clear="false" value=@item.Rating data-disabled="true"></div></td>
                         </tr>
                     }
                 </tbody>
@@ -24,3 +24,4 @@
         </div>
     </div>
 }
+

@@ -341,3 +341,16 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
 .vertical-align-center{
     vertical-align:sub;
 }
+
+.rating-xxs {
+  font-size: 0.8em;
+}
+
+.table-baseline > tbody > tr > td:nth-child(2n+1), .table-baseline > tbody > tr > td{
+    vertical-align:baseline;
+}
+
+.table-bottom-border > tbody > tr:not(:first-child){
+    border-top: 1px solid;
+    border-color:inherit;
+}

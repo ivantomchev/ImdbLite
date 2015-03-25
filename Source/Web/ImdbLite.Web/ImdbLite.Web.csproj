@@ -283,6 +283,7 @@
     <Compile Include="ViewModels\Movies\MovieHomePageOnTheathersViewModel.cs" />
     <Compile Include="ViewModels\Movies\MovieHomePageTrailersViewModel.cs" />
     <Compile Include="ViewModels\Movies\MoviesGridViewModel.cs" />
+    <Compile Include="ViewModels\Movies\MovieTopBottomListViewModel.cs" />
     <Compile Include="ViewModels\Photos\PhotoIndexViewModel.cs" />
     <Compile Include="ViewModels\Votes\RatingViewModel.cs" />
     <Compile Include="ViewModels\Votes\VoteInputModel.cs" />
@@ -579,6 +580,7 @@
     <Content Include="Views\Shared\DisplayTemplates\HomePageTrailersPanel.cshtml" />
     <Content Include="Views\Votes\_AddOrUpdateVotePartial.cshtml" />
     <Content Include="Views\Movies\_MovieRatingPartial.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MovieTopBottomListPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,5 +24,13 @@
         [UIHint("HomePageMoviesPanel")]
         [Display(Name = "Last Added Movies")]
         public IEnumerable<MovieCinemaListItemViewModel> Movies { get; set; }
+
+        [UIHint("MovieTopBottomListPanel")]
+        [Display(Name = "Top 10 Movies")]
+        public IEnumerable<MovieTopBottomListViewModel> TopTenMovies { get; set; }
+
+        [UIHint("MovieTopBottomListPanel")]
+        [Display(Name = "Bottom 10 Movies")]
+        public IEnumerable<MovieTopBottomListViewModel> BottomTenMovies { get; set; }
     }
 }
