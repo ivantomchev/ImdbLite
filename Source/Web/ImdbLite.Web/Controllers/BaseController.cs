@@ -10,6 +10,12 @@
 
     public class BaseController : Controller
     {
+        /// <summary>
+        /// Gets the data.
+        /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
         protected IImdbLiteData Data { get; private set; }
 
         protected User CurrentUser { get; private set; }
