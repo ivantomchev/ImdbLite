@@ -1,4 +1,4 @@
-﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Movies.IMovieInputModel
+﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieUpdateModel
 @using (Html.BeginForm("Update", "Movies", new { area = GlobalConstants.AdminArea }, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

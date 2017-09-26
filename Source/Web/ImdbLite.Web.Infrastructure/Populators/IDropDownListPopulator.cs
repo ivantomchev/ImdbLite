@@ -5,14 +5,14 @@
 
     public interface IDropDownListPopulator
     {
-        IEnumerable<SelectListItem> GetCelebrities();
+        IEnumerable<KeyValuePair<string,string>> GetCelebrities();
 
-        IEnumerable<SelectListItem> GetGenres();
+        IEnumerable<KeyValuePair<string, string>> GetGenres();
 
-        IEnumerable<SelectListItem> GetCinemas();
+        IEnumerable<KeyValuePair<string, string>> GetCinemas();
 
-        IEnumerable<SelectListItem> GetMovies();
+        IEnumerable<KeyValuePair<string, string>> GetMovies();
 
-        IEnumerable<SelectListItem> GetCities();
+        IEnumerable<KeyValuePair<string, string>> GetCities();
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Collections;
     using System.Linq;
     using System.Collections.Generic;
     using System.Web.Mvc;
@@ -78,9 +77,9 @@
                 return HttpNotFound();
             }
 
-            model.Celebrities = this.populator.GetCelebrities();
-            model.GenresList = this.populator.GetGenres();
-            model.CinemasList = this.populator.GetCinemas();
+            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
+            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -90,13 +89,68 @@
         public ActionResult Update(UpdateModel model)
         {
             //TODO More appropriate Update Action
-            PopulateSelectedGenres(model.Genres, model.selectedGenres);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedDirectors, ParticipationType.Director);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedProducers, ParticipationType.Producer);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedWriters, ParticipationType.Writer);
-            PopulateSelectedCinemas(model.Cinemas, model.selectedCinemas);
 
-            ClearMovieCollections(model.Id);
+            var celebritiesIds = model.selectedDirectors
+                .Concat(model.selectedProducers)
+                .Concat(model.selectedWriters)
+                .Distinct();
+
+            var selectedCelebrities = this.Data.Celebrities
+                .All()
+                .Where(c => celebritiesIds.Contains(c.Id))
+                .ToList();
+
+            var directors = selectedCelebrities
+                .Where(c => model.selectedDirectors.Contains(c.Id))
+                .Select(c => new CastMemberInputModel
+                {
+                    CelebrityId = c.Id,
+                    Participation = ParticipationType.Director
+                })
+                .ToList();
+
+            var producers = selectedCelebrities
+                .Where(c => model.selectedProducers.Contains(c.Id))
+                .Select(c => new CastMemberInputModel
+                {
+                    CelebrityId = c.Id,
+                    Participation = ParticipationType.Producer
+                })
+                .ToList();
+
+            var writers = selectedCelebrities
+                .Where(c => model.selectedWriters.Contains(c.Id))
+                .Select(c => new CastMemberInputModel
+                {
+                    CelebrityId = c.Id,
+                    Participation = ParticipationType.Writer
+                })
+                .ToList();
+
+            model.CastMembers = directors
+                .Concat(producers)
+                .Concat(writers)
+                .ToList();
+
+            model.Genres = this.Data.Genres
+                .All()
+                .Where(g => model.selectedGenres.Contains(g.Id))
+                .ToList();
+
+            model.Cinemas = this.Data.Cinemas
+                .All()
+                .Where(c => model.selectedCinemas.Contains(c.Id))
+                .ToList();
+
+            this.Data.Characters
+                .All()
+                .Where(x => x.MovieId == model.Id && !model.selectedCharacters.Contains(x.Id))
+                .ForEach(this.Data.Characters.ActualDelete);
+
+            this.Data.CastMembers
+                .All()
+                .Where(x => x.MovieId == model.Id && !celebritiesIds.Contains(x.Id))
+                .ForEach(this.Data.CastMembers.ActualDelete);
 
             var dbModel = base.Update<DbModel, UpdateModel>(model, model.Id);
             if (dbModel != null)
@@ -105,9 +159,9 @@
                 return RedirectToAction("Index");
             }
 
-            model.Celebrities = this.populator.GetCelebrities();
-            model.GenresList = this.populator.GetGenres();
-            model.CinemasList = this.populator.GetCinemas();
+            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
+            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -115,9 +169,9 @@
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.Celebrities = this.populator.GetCelebrities();
-            model.GenresList = this.populator.GetGenres();
-            model.CinemasList = this.populator.GetCinemas();
+            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
+            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -139,9 +193,9 @@
                 return RedirectToAction("Index");
             }
 
-            model.Celebrities = this.populator.GetCelebrities();
-            model.GenresList = this.populator.GetGenres();
-            model.CinemasList = this.populator.GetCinemas();
+            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
+            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 

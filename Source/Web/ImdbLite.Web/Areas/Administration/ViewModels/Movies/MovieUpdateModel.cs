@@ -19,9 +19,9 @@
         public MovieUpdateModel()
         {
             this.Characters = new List<CharacterInputModel>();
-            this.CastMembers = new HashSet<CastMemberInputModel>();
-            this.Genres = new HashSet<Genre>();
-            this.Cinemas = new HashSet<Cinema>();
+            this.CastMembers = new List<CastMemberInputModel>();
+            this.Genres = new List<Genre>();
+            this.Cinemas = new List<Cinema>();
         }
 
         public int Id { get; set; }

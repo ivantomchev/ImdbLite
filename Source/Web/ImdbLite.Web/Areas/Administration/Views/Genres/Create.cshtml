@@ -18,9 +18,273 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="row">
+
+            <div class="list-group col-md-5" id="sections-container">
+                <a href="#" class="list-group-item unsortable">
+                    Добави нова
+                    <div id="add-section" class="glyphicon glyphicon-plus" style="float:right"></div>
+                </a>
+            </div>
+
+
+            <div class="col-md-5" id="sections-content-container">
+            </div>
+        </div>
+    </div>
+
+    <a href="#" id="section-template" class="list-group-item hidden" data-index=0>
+        <span class="section-title"></span>
+        <span class="glyphicon glyphicon-trash section-delete" style="float:right"></span>
+    </a>
+
+    <div id="section-content-template" class="hidden">
+        <div class="form-group">
+            <label label-type="title" for="section-title">Заглавие</label>
+            <input type="text" class="form-control" style="max-width:100%">
+            <span class="help-block hidden">Полето е задължително.</span>
+        </div>
+        <div class="form-group">
+            <label label-type="content" for="section-text">Съдържание</label>
+            <textarea class="form-control" rows="10" placeholder="Въведете съдържанието на секцията..."></textarea>
+        </div>
     </div>
 }
 
 @section scripts{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+
+        $(function () {
+            var sectionsContainer = $('#sections-container');
+            var sectionsContentContainer = $('#sections-content-container');
+
+            var sectionTemplate = $("#section-template");
+            var sectionContentTemplate = $("#section-content-template");
+
+            restoreChanges();
+
+            sectionsContainer.find('#add-section').click(createSection);
+
+            sectionsContainer.sortable({
+                items: "a:not(.unsortable)",
+                update: function (event, ui) {
+                    saveChanges();
+                }
+            });
+
+            var isValid = true;
+
+            function createSection() {
+                var section = sectionTemplate.clone(true);
+                var content = sectionContentTemplate.clone(true);
+
+                var index = createSectionIndex();
+
+                sectionsContainer.children().removeClass("active");
+                sectionsContentContainer.children().addClass("hidden");
+
+                var sectionName = "Секция " + (index + 1);
+
+                section.removeAttr("id");
+                section.removeClass("hidden");
+                section.addClass("active");
+                section.attr('data-index', index);
+                section.find(".section-title").text(sectionName);
+                section.click(onSelectSection);
+                section.find(".section-delete").click(deleteSection);
+
+                content.removeAttr("id");
+                content.removeClass("hidden");
+                content.attr("data-index", index);
+
+                var input = content.find("input[type=text]");
+                var inputLabel = content.find("label[label-type=title]");
+                var textArea = content.find("textarea");
+                var textAreaLabel = content.find("label[label-type=content]");
+
+                inputLabel.attr("for", "Sections[" + index + "].Title");
+                input.attr("name", "Sections[" + index + "].Title");
+                input.attr("id", "Sections[" + index + "].Title");
+                input.val(sectionName);
+                input.on("keyup", onChangeSectionTitle);
+                textAreaLabel.attr("for", "Sections[" + index + "].Content");
+                textArea.attr("name", "Sections[" + index + "].Content");
+                textArea.attr("id", "Sections[" + index + "].Content");
+                textArea.on("keyup", onChangeSectionContent);
+
+                sectionsContainer.append(section);
+                sectionsContentContainer.append(content);
+
+                saveChanges();
+            }
+
+            function deleteSection(event) {
+                var section = $(this).parent();
+                var sectionContent = sectionsContentContainer.find("[data-index=" + section.attr("data-index") + "]");
+
+                section.remove();
+                sectionContent.remove();
+
+                if (section.hasClass("active")) {
+                    var lastSection = sectionsContainer.children().last();
+                    if (lastSection) {
+                        $(lastSection).click();
+                    }
+                }
+
+                saveChanges();
+            }
+
+            function onSelectSection(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                var section = $(this);
+                var index = section.attr('data-index');
+
+                sectionsContainer.children().removeClass("active");
+                section.addClass("active");
+
+                sectionsContentContainer.children().addClass("hidden");
+                sectionsContentContainer.find('[data-index=' + index + ']').removeClass("hidden");
+
+                saveChanges();
+            }
+
+            function onChangeSectionTitle(event) {
+                var input = $(this);
+
+                if (input.val()) {
+
+                    isValid = true;
+                    input.parent().removeClass("has-error");
+                    input.siblings(".help-block").addClass("hidden")
+
+                    var index = $(this).parent().parent().attr("data-index");
+                    var section = sectionsContainer.find("[data-index=" + index + "]");
+
+                    section.attr("modified", true);
+                    section.find(".section-title").text($(this).val());
+
+                    saveChanges();
+                } else {
+
+                    isValid = false;
+                    input.parent().addClass("has-error");
+                    input.siblings(".help-block").removeClass("hidden")
+                }
+
+            }
+
+            function onChangeSectionContent(event) {
+                saveChanges();
+            }
+
+            function createSectionIndex() {
+
+                var sections = sectionsContainer.children().filter(function (index, item) {
+                    item = $(item);
+                    if (item.attr('data-index') && !item.attr("modified")) {
+                        return item;
+                    }
+                });
+
+                if (sections.length == 0) {
+                    return 0;
+                }
+
+                var indexes = [];
+                sections.each(function (index, item) {
+                    if ($(item).attr('data-index')) {
+                        indexes.push(parseInt($(item).attr('data-index')));
+                    }
+                })
+
+                indexes = indexes.sort(function (a, b) {
+                    return a - b;
+                });
+
+                for (var i = 0; i < indexes.length + 1; i++) {
+                    if (indexes.indexOf(i) == -1) {
+                        return i;
+                    }
+                }
+            }
+
+            function saveChanges() {
+                sessionStorage.setItem("sections-container", $('#sections-container').html());
+                sessionStorage.setItem("sections-content-container", $('#sections-content-container').html());
+
+                var inputElements = sectionsContentContainer.find("input[type=text]");
+                var textAreaElements = sectionsContentContainer.find("textarea");
+
+                var inputs = [];
+                var textAreas = [];
+
+                inputElements.each(function (index, item) {
+                    item = $(item);
+                    inputs.push({
+                        Id: item.attr("id"),
+                        Value: item.val()
+                    });
+                });
+
+                textAreaElements.each(function (index, item) {
+                    item = $(item);
+                    textAreas.push({
+                        Id: item.attr("id"),
+                        Value: item.val()
+                    });
+                });
+
+                sessionStorage.setItem("inputs", JSON.stringify(inputs));
+                sessionStorage.setItem("textAreas", JSON.stringify(textAreas));
+            }
+
+            function restoreChanges() {
+                var savedSectionsContainer = sessionStorage.getItem("sections-container");
+                var savedSectionsContentContainer = sessionStorage.getItem("sections-content-container");
+
+                if (savedSectionsContainer && savedSectionsContentContainer) {
+                    sectionsContainer.html(savedSectionsContainer);
+                    sectionsContentContainer.html(savedSectionsContentContainer);
+                    restoreEvents();
+                    restoreData();
+                }
+            }
+
+            function clearChanges() {
+                sessionStorage.removeItem("sections-container");
+                sessionStorage.removeItem("sections-content-container");
+                sessionStorage.removeItem("inputs");
+                sessionStorage.removeItem("textAreas");
+            }
+
+            function restoreEvents() {
+                sectionsContentContainer.find("input[type=text]").keyup(onChangeSectionTitle);
+                sectionsContentContainer.find("textarea").keyup(onChangeSectionContent);
+                sectionsContainer.find(".list-group-item[data-index]").click(onSelectSection);
+                sectionsContainer.find(".section-delete").click(deleteSection);
+            }
+
+            function restoreData() {
+                var inputs = JSON.parse(sessionStorage.getItem("inputs"));
+                var textAreas = JSON.parse(sessionStorage.getItem("textAreas"));
+
+                inputs.forEach(function (item) {
+                    sectionsContentContainer.find('input[id="' + item.Id + '"]').val(item.Value)
+                })
+
+                textAreas.forEach(function (item) {
+                    sectionsContentContainer.find('textarea[id="' + item.Id + '"]').val(item.Value)
+                })
+            }
+        })
+    </script>
+
     @Scripts.Render("~/bundles/jqueryval")
 }

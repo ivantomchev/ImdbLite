@@ -2,9 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web.Mvc;
 
-    using ImdbLite.Common.Extensions;
     using ImdbLite.Data.UnitOfWork;
     using ImdbLite.Web.Infrastructure.Caching;
 
@@ -19,62 +17,81 @@
             this.cache = cache;
         }
 
-        public IEnumerable<SelectListItem> GetCelebrities()
+        public IEnumerable<KeyValuePair<string, string>> GetCelebrities()
         {
-            var data = this.cache.Get<IEnumerable<SelectListItem>>("Celebrities",
+            var data = this.cache.Get("Celebrities",
                 () =>
                 {
-                    return this.data.Celebrities.All().ToSelectList(x => x.FirstName + " " + x.LastName, x => x.Id).OrderBy(x => x.Text).ToList();
+                    return this.data.Celebrities
+                        .All()
+                        .Select(x => new { Key = x.Id.ToString(), Value = x.FirstName + " " + x.LastName })
+                        .OrderBy(x => x.Value)
+                        .AsEnumerable()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
                 });
 
             return data;
         }
 
-        public IEnumerable<SelectListItem> GetGenres()
+        public IEnumerable<KeyValuePair<string, string>> GetGenres()
         {
-            var data = this.cache.Get<IEnumerable<SelectListItem>>("Genres",
+            var data = this.cache.Get("Genres",
                 () =>
                 {
-                    return this.data.Genres.All().ToSelectList(x => x.Name, x => x.Id).OrderBy(x => x.Text).ToList();
+                    return this.data.Genres
+                        .All()
+                        .Select(x => new { Key = x.Id.ToString(), Value = x.Name })
+                        .OrderBy(x => x.Value)
+                        .AsEnumerable()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
                 });
 
             return data;
         }
 
-        public IEnumerable<SelectListItem> GetCinemas()
+        public IEnumerable<KeyValuePair<string, string>> GetCinemas()
         {
-            var data = this.cache.Get<IEnumerable<SelectListItem>>("Cinemas",
+            var data = this.cache.Get("Cinemas",
                 () =>
                 {
-                    return this.data.Cinemas.All().Select(x => new 
-                    {
-                       Id = x.Id,
-                       Name = x.Name,
-                       City = x.City.Name
-
-                    }).ToSelectList(x => x.Name + " - " + x.City, x => x.Id).OrderBy(x => x.Text).ToList();
+                    return this.data.Cinemas
+                        .All()
+                        .Select(x => new { Key = x.Id.ToString(), Value = x.Name + " - " + x.City.Name })
+                        .OrderBy(x => x.Value)
+                        .AsEnumerable()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
                 });
 
             return data;
         }
 
-        public IEnumerable<SelectListItem> GetMovies()
+        public IEnumerable<KeyValuePair<string, string>> GetMovies()
         {
-            var data = this.cache.Get<IEnumerable<SelectListItem>>("Movies",
+            var data = this.cache.Get("Movies",
                 () =>
                 {
-                    return this.data.Movies.All().ToSelectList(x => x.Title, x => x.Id).OrderBy(x => x.Text).ToList();
+                    return this.data.Movies
+                        .All()
+                        .Select(x => new { Key = x.Id.ToString(), Value = x.Title })
+                        .OrderBy(x => x.Value)
+                        .AsEnumerable()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
                 });
 
             return data;
         }
 
-        public IEnumerable<SelectListItem> GetCities()
+        public IEnumerable<KeyValuePair<string, string>> GetCities()
         {
-            var data = this.cache.Get<IEnumerable<SelectListItem>>("Cities",
+            var data = this.cache.Get("Cities",
                 () =>
                 {
-                    return this.data.Cities.All().ToSelectList(x => x.Name, x => x.Id).ToList();
+                    return this.data.Cities
+                        .All()
+                        .Select(x => new { Key = x.Id.ToString(), Value = x.Name })
+                        .OrderBy(x => x.Value)
+                        .AsEnumerable()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
                 });
 
             return data;

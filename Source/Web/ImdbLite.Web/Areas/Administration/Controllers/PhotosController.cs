@@ -63,8 +63,8 @@
                 return HttpNotFound();
             }
 
-            model.CelebritiesSelectList = this.populator.GetCelebrities();
-            model.MoviesSelectList = this.populator.GetMovies();
+            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesSelectList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -82,8 +82,8 @@
                 return RedirectToAction("Index");
             }
 
-            model.CelebritiesSelectList = this.populator.GetCelebrities();
-            model.MoviesSelectList = this.populator.GetMovies();
+            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesSelectList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -91,8 +91,8 @@
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.CelebritiesSelectList = this.populator.GetCelebrities();
-            model.MoviesSelectList = this.populator.GetMovies();
+            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesSelectList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -111,8 +111,8 @@
                 return RedirectToAction("Index");
             }
 
-            model.CelebritiesSelectList = this.populator.GetCelebrities();
-            model.MoviesSelectList = this.populator.GetMovies();
+            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesSelectList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
