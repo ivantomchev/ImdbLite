@@ -573,6 +573,12 @@
     <Content Include="Views\Votes\_AddOrUpdateVotePartial.cshtml" />
     <Content Include="Views\Movies\_MovieRatingPartial.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MovieTopBottomListPanel.cshtml" />
+    <Content Include="Views\Movies\_MoviesTrailersPartial.cshtml" />
+    <Content Include="Views\Articles\_ArticlesListItemsPartial.cshtml" />
+    <Content Include="Views\Movies\_MoviesWithRatingsListItemsPartial.cshtml" />
+    <Content Include="Views\Articles\_ArticlesCarouselListItemsPartial.cshtml" />
+    <Content Include="Views\Movies\_MoviesListItemsPartial.cshtml" />
+    <Content Include="Views\Movies\_MoviesOnTheathersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,6 +5,7 @@
     using System.Linq.Expressions;
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
+    using System.Web.Routing;
 
     public static class HtmlExtentions
     {
@@ -67,6 +68,38 @@
             attributes.Add("type", "file");
 
             return InputExtensions.TextBoxFor<TModel, TProperty>(htmlHelper, expression, attributes);
+        }
+
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName)
+        {
+            return ActionAsync(helper, actionName, null, null);
+        }
+
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, object routeValues = null)
+        {
+            object controllerName = null;
+            helper.ViewContext.RouteData.Values.TryGetValue("controller", out controllerName);
+
+            return ActionAsync(helper, actionName, controllerName.ToString(), routeValues);
+        }
+
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, string controllerName)
+        {
+            return ActionAsync(helper, actionName, controllerName.ToString(), null);
+        }
+
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, string controllerName, object routeValues = null)
+        {
+            var input = new TagBuilder("div");
+
+            var routeValueDictionary = routeValues == null ? new RouteValueDictionary() : new RouteValueDictionary(routeValues);
+
+            var url = UrlHelper.GenerateUrl(null, actionName, controllerName, routeValueDictionary, helper.RouteCollection, helper.ViewContext.RequestContext, false);
+
+            input.Attributes.Add("data-url", url);
+            input.AddCssClass("partial-content");
+
+            return MvcHtmlString.Create(input.ToString());
         }
     }
 }

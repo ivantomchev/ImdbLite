@@ -67,7 +67,9 @@ namespace ImdbLite.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>();
+            //kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>();
+
+            kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>().InRequestScope();
 
             kernel.Bind<IImdbLiteData>().To<ImdbLiteData>();
 

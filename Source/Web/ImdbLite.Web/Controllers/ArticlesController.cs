@@ -9,7 +9,8 @@
     using DbModel = ImdbLite.Data.Models.Article;
     using IndexViewModel = ImdbLite.Web.ViewModels.Articles.ArticleIndexViewModel;
     using DetailedViewModel = ImdbLite.Web.ViewModels.Articles.ArticleDetailsViewModel;
-
+    using ImdbLite.Web.ViewModels.Articles;
+    using System.Threading;
 
     public class ArticlesController : BaseEntityController
     {
@@ -40,6 +41,31 @@
             ViewBag.NextPage = pageNumber + 1;
 
             return PartialView("_ArticlesGridPartial", data);
+        }
+
+        public ActionResult GetArticlesListItems(int? take)
+        {
+            var model = this.Data.Articles
+                .All()
+                .Project()
+                .To<ArticleListItemsViewModel>()
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_ArticlesListItemsPartial", model);
+        }
+
+        public ActionResult GetArticlesCarouselListItems(int? take)
+        {
+            var model = this.Data.Articles
+                .All()
+                .Project()
+                .To<ArticleHomePageCarouselViewModel>()
+                .OrderByDescending(x => x.CreatedOn)
+                .Take(take.GetValueOrDefault(7))
+                .ToList();
+
+            return PartialView("_ArticlesCarouselListItemsPartial", model);
         }
 
         [HttpGet]

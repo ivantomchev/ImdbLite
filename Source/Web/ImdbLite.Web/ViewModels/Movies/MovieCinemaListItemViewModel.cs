@@ -7,11 +7,13 @@
     using ImdbLite.Common;
     using AutoMapper;
 
-    public class MovieCinemaListItemViewModel : IMapFrom<Movie>,IHaveCustomMappings
+    public class MovieCinemaListItemViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = GlobalConstants.DateTimeYearFormatString)]

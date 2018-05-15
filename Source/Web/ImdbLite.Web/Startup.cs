@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using Ninject;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(ImdbLite.Web.Startup))]

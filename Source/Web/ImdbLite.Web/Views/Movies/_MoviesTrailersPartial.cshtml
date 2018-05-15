@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Movies.MovieHomePageTrailersViewModel>
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title text-uppercase">Trailers</h3>
+        </div>
+        <div class="panel-body custom-panel-no-padding">
+            <div class="row">
+
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4 custom-col">
+                        <a class="trailer" title="@item.Title" href="@item.OfficialTrailer">
+                            @Html.Image(item.Poster.Content, item.Poster.Type, null, new { @class = "img-responsive" })
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+

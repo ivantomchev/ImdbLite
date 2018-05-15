@@ -90,74 +90,74 @@
         {
             //TODO More appropriate Update Action
 
-            var celebritiesIds = model.selectedDirectors
-                .Concat(model.selectedProducers)
-                .Concat(model.selectedWriters)
-                .Distinct();
+            //var celebritiesIds = model.selectedDirectors
+            //    .Concat(model.selectedProducers)
+            //    .Concat(model.selectedWriters)
+            //    .Distinct();
 
-            var selectedCelebrities = this.Data.Celebrities
-                .All()
-                .Where(c => celebritiesIds.Contains(c.Id))
-                .ToList();
+            //var selectedCelebrities = this.Data.Celebrities
+            //    .All()
+            //    .Where(c => celebritiesIds.Contains(c.Id))
+            //    .ToList();
 
-            var directors = selectedCelebrities
-                .Where(c => model.selectedDirectors.Contains(c.Id))
-                .Select(c => new CastMemberInputModel
-                {
-                    CelebrityId = c.Id,
-                    Participation = ParticipationType.Director
-                })
-                .ToList();
+            //var directors = selectedCelebrities
+            //    .Where(c => model.selectedDirectors.Contains(c.Id))
+            //    .Select(c => new CastMemberInputModel
+            //    {
+            //        CelebrityId = c.Id,
+            //        Participation = ParticipationType.Director
+            //    })
+            //    .ToList();
 
-            var producers = selectedCelebrities
-                .Where(c => model.selectedProducers.Contains(c.Id))
-                .Select(c => new CastMemberInputModel
-                {
-                    CelebrityId = c.Id,
-                    Participation = ParticipationType.Producer
-                })
-                .ToList();
+            //var producers = selectedCelebrities
+            //    .Where(c => model.selectedProducers.Contains(c.Id))
+            //    .Select(c => new CastMemberInputModel
+            //    {
+            //        CelebrityId = c.Id,
+            //        Participation = ParticipationType.Producer
+            //    })
+            //    .ToList();
 
-            var writers = selectedCelebrities
-                .Where(c => model.selectedWriters.Contains(c.Id))
-                .Select(c => new CastMemberInputModel
-                {
-                    CelebrityId = c.Id,
-                    Participation = ParticipationType.Writer
-                })
-                .ToList();
+            //var writers = selectedCelebrities
+            //    .Where(c => model.selectedWriters.Contains(c.Id))
+            //    .Select(c => new CastMemberInputModel
+            //    {
+            //        CelebrityId = c.Id,
+            //        Participation = ParticipationType.Writer
+            //    })
+            //    .ToList();
 
-            model.CastMembers = directors
-                .Concat(producers)
-                .Concat(writers)
-                .ToList();
+            //model.CastMembers = directors
+            //    .Concat(producers)
+            //    .Concat(writers)
+            //    .ToList();
 
-            model.Genres = this.Data.Genres
-                .All()
-                .Where(g => model.selectedGenres.Contains(g.Id))
-                .ToList();
+            //model.Genres = this.Data.Genres
+            //    .All()
+            //    .Where(g => model.selectedGenres.Contains(g.Id))
+            //    .ToList();
 
-            model.Cinemas = this.Data.Cinemas
-                .All()
-                .Where(c => model.selectedCinemas.Contains(c.Id))
-                .ToList();
+            //model.Cinemas = this.Data.Cinemas
+            //    .All()
+            //    .Where(c => model.selectedCinemas.Contains(c.Id))
+            //    .ToList();
 
-            this.Data.Characters
-                .All()
-                .Where(x => x.MovieId == model.Id && !model.selectedCharacters.Contains(x.Id))
-                .ForEach(this.Data.Characters.ActualDelete);
+            //this.Data.Characters
+            //    .All()
+            //    .Where(x => x.MovieId == model.Id && !model.selectedCharacters.Contains(x.Id))
+            //    .ForEach(this.Data.Characters.ActualDelete);
 
-            this.Data.CastMembers
-                .All()
-                .Where(x => x.MovieId == model.Id && !celebritiesIds.Contains(x.Id))
-                .ForEach(this.Data.CastMembers.ActualDelete);
+            //this.Data.CastMembers
+            //    .All()
+            //    .Where(x => x.MovieId == model.Id && !celebritiesIds.Contains(x.Id))
+            //    .ForEach(this.Data.CastMembers.ActualDelete);
 
-            var dbModel = base.Update<DbModel, UpdateModel>(model, model.Id);
-            if (dbModel != null)
-            {
-                this.ClearMoviesCache();
-                return RedirectToAction("Index");
-            }
+            //var dbModel = base.Update<DbModel, UpdateModel>(model, model.Id);
+            //if (dbModel != null)
+            //{
+            //    this.ClearMoviesCache();
+            //    return RedirectToAction("Index");
+            //}
 
             model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
             model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
@@ -282,7 +282,7 @@
             castmembers.ForEach(this.Data.CastMembers.ActualDelete);
         }
 
-        private void ClearMoviesCache()
+        public void ClearMoviesCache()
         {
             this.service.Clear("Movies");
         }

@@ -1,0 +1,81 @@
+﻿@model  IList<ImdbLite.Web.ViewModels.Articles.ArticleHomePageCarouselViewModel>
+
+@if (Model.Count() > 0)
+{
+    <div class="panel @ViewData["class"]">
+        <div class="panel-heading">
+            <h3 class="panel-title text-uppercase">
+                @ViewData["title"]
+            </h3>
+        </div>
+        <div class="panel-body custom-panel-no-padding">
+            <div class="row">
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            if (i == 0)
+                            {
+                                <li data-target="#carousel-example-generic" data-slide-to="@i" class="active"></li>
+                            }
+                            else
+                            {
+                                <li data-target="#carousel-example-generic" data-slide-to="@i"></li>
+                            }
+                        }
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            if (i == 0)
+                            {
+
+                                <div class="item active">
+                                    <a href="@Url.Action("Details", "Articles", new { id = Model[i].Id })">
+                                        <div>
+                                            <div class="row">
+                                                @Html.Image(Model[i].Photo.Content, Model[i].Photo.Type)
+                                            </div>
+
+                                            <div class="carousel-caption row">
+                                                @Html.DisplayFor(m => Model[i].Title)
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="item">
+                                    <a href="@Url.Action("Details", "Articles", new { id = Model[i].Id })">
+                                        <div>
+                                            <div class="row">
+                                                @Html.Image(Model[i].Photo.Content, Model[i].Photo.Type)
+                                            </div>
+
+                                            <div class="carousel-caption row">
+                                                @Html.DisplayFor(m => Model[i].Title)
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -13,6 +13,7 @@
     using ImdbLite.Data.Models;
     using ImdbLite.Web.Areas.Administration.ViewModels.CastMembers;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
+    using ImdbLite.Web.Infrastructure.Attributes;
 
     public class MovieUpdateModel : IMapFrom<Movie>, IHaveCustomMappings, IMovieInputModel
     {
@@ -57,6 +58,12 @@
         [Display(Name = "Official Trailer")]
         public string OfficialTrailer { get; set; }
 
+        [UIHint("SingleLineText")]
+        public int Kur { get; set; }
+
+        [UIHint("SingleLineText")]
+        public int Shano { get; set; }
+
         //TODO Validate size, aspect ratio...
         [UIHint("UploadFile")]
         public HttpPostedFileBase FileToUpload { get; set; }
@@ -81,23 +88,23 @@
         public int[] selectedCinemas { get; set; }
 
         [Display(Name = "Producers")]
-        [Required]
+        [RequiredMinimumElements(1, ErrorMessage = "At least 1 producer is required.")]
         public int[] selectedProducers { get; set; }
 
         [Display(Name = "Directors")]
-        [Required]
+        [RequiredMinimumElements(1, ErrorMessage = "At least 1 director is required.")]
         public int[] selectedDirectors { get; set; }
 
         [Display(Name = "Writers")]
-        [Required]
+        [RequiredMinimumElements(1, ErrorMessage = "At least 1 writer is required.")]
         public int[] selectedWriters { get; set; }
 
         [Display(Name = "Actors")]
-        [Required]
+        [RequiredMinimumElements(1, ErrorMessage = "At least 1 character is required.")]
         public int[] selectedCharacters { get; set; }
 
         [Display(Name = "Genres")]
-        [Required]
+        [RequiredMinimumElements(1, ErrorMessage = "At least 1 genre is required.")]
         public int[] selectedGenres { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
@@ -113,7 +120,7 @@
                 .ForMember(d => d.selectedProducers, opt => opt.MapFrom(s => s.CastMembers.Where(x => x.Participation == ParticipationType.Producer).Select(x => x.CelebrityId)))
                 .ForMember(d => d.selectedWriters, opt => opt.MapFrom(s => s.CastMembers.Where(x => x.Participation == ParticipationType.Writer).Select(x => x.CelebrityId)))
                 .ForMember(d => d.selectedCharacters, opt => opt.MapFrom(s => s.Characters.Select(x => x.CelebrityId)))
-                .ForMember(d => d.selectedCinemas,opt => opt.MapFrom(s => s.Cinemas.Select(x => x.Id)));
+                .ForMember(d => d.selectedCinemas, opt => opt.MapFrom(s => s.Cinemas.Select(x => x.Id)));
         }
 
     }

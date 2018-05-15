@@ -83,7 +83,7 @@
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key); ;
+            model.CelebritiesSelectList = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key).ToList();
             model.MoviesSelectList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);

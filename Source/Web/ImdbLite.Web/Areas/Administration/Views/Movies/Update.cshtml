@@ -3,6 +3,7 @@
 {
     @Html.AntiForgeryToken()
 
+
     <div class="form-horizontal">
         @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
 
@@ -25,6 +26,7 @@
                     @Html.EditorFor(m => m.ReleaseDate)
                     @Html.EditorFor(m => m.DVDReleaseDate)
                     @Html.EditorFor(m => m.OfficialTrailer)
+
                     <div class="form-group">
                         <div>@Html.LabelFor(m => m.selectedGenres)</div>
                         @Html.ListBoxFor(m => m.selectedGenres, Model.GenresList, new { @class = "form-control chzn-select genres", @data_placeholder = "Choose Genre" })
@@ -111,7 +113,30 @@
 }
 @section scripts{
     @Scripts.Render("~/bundles/movies-create-server-side")
-    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        //$(function () {
+        $.validator.addMethod("requiredminimumelements", function (value, element, param) {
+            console.log(value)
+            console.log(element)
+            console.log(param)
+            return false;
+        });
+        $.validator.unobtrusive.adapters.add('requiredminimumelements', ["min"], function (options) {
+            console.log(options)
+                options.messages['requiredminimumelements'] = options.message;
+                options.rules['requiredminimumelements'] = options.params;
+            });
+
+            
+
+        //});
+
+
+    </script>
     @Scripts.Render("~/bundles/picture-preview")
+
 }
 

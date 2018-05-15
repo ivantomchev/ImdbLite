@@ -1,0 +1,17 @@
+﻿@model IEnumerable<ImdbLite.Web.ViewModels.Movies.MovieHomePageOnTheathersViewModel>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ON THEATHERS</div>
+    <div class="panel-body">
+        <div id="owl-demo" class="owl-carousel owl-theme">
+            @foreach (var item in Model)
+            {
+                <div class="item">
+                    <a href="@Url.Action("Details", "Movies", new { id = item.Id })">
+                        <div style="margin:5px">@Html.Image(item.Poster.Content, item.Poster.Type, null, new { @class = "img-responsive" })</div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>

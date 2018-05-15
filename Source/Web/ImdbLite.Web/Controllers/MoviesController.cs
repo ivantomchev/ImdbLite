@@ -7,7 +7,7 @@
     using AutoMapper.QueryableExtensions;
 
     using ImdbLite.Data.UnitOfWork;
-    using ImdbLite.Web.ViewModels.Articles;
+    using ImdbLite.Web.ViewModels.Movies;
     using ImdbLite.Web.ViewModels.Photos;
     using ImdbLite.Web.ViewModels.Votes;
 
@@ -24,18 +24,25 @@
         {
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
-            var model = this.Data.Movies.All().SelectMany(x => x.RelatedArticles).Distinct().Project().To<ArticleListItemsViewModel>().Take(10);
-
-            return View(model);
+            return View();
         }
 
+        [HttpGet]
         public ActionResult ReadData(int? Id)
         {
             int pageNumber = Id.GetValueOrDefault(1);
-            var count = (double)GetData<GridViewModel>().Count();
-            var data = GetData<GridViewModel>().OrderBy(x => x.Title).Skip((pageNumber - 1) * PageSize).Take(PageSize);
+
+            var count = (double)GetData<GridViewModel>()
+                .Count();
+
+            var data = GetData<GridViewModel>()
+                .OrderBy(x => x.Title)
+                .Skip((pageNumber - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
 
             ViewBag.Pages = Math.Ceiling(count / PageSize);
             ViewBag.CurrentPage = pageNumber;
@@ -45,6 +52,99 @@
             return PartialView("_MoviesGridPartial", data);
         }
 
+        [HttpGet]
+        public ActionResult GetMoviesWithRatingsListItems(int? take, string direction = "asc")
+        {
+            var query = this.Data.Movies
+                .All()
+                .Project()
+                .To<MovieTopBottomListViewModel>();
+
+            if (direction == "asc")
+            {
+                query = query.OrderBy(x => x.Rating);
+                ViewBag.Title = "Bottom 10 Movies";
+            }
+            else
+            {
+                query = query.OrderByDescending(x => x.Rating);
+                ViewBag.Title = "Top 10 Movies";
+            }
+
+            var model = query
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_MoviesWithRatingsListItemsPartial", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetMoviesListItems(int? take, string direction = "asc")
+        {
+            var query = this.Data.Movies
+                .All()
+                .Project()
+                .To<MovieCinemaListItemViewModel>();
+
+            if (direction == "asc")
+            {
+                query = query.OrderBy(x => x.CreatedOn);
+                ViewBag.Title = "First Added Movies";
+            }
+            else
+            {
+                query = query.OrderByDescending(x => x.CreatedOn);
+                ViewBag.Title = "Last Added Movies";
+            }
+
+            var model = query
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_MoviesListItemsPartial", model);
+        }
+
+        [HttpGet]
+        public ActionResult GetMoviesOnTheathers(int? take, string direction = "asc")
+        {
+            var query = this.Data.Movies
+                .All()
+                .Where(m => m.Cinemas.Any())
+                .Project()
+                .To<MovieHomePageOnTheathersViewModel>();
+
+            if (direction == "asc")
+            {
+                query = query.OrderBy(x => x.CreatedOn);
+            }
+            else
+            {
+                query = query.OrderByDescending(x => x.CreatedOn);
+            }
+
+            var model = query
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_MoviesOnTheathersPartial", model);
+
+        }
+
+        [HttpGet]
+        public ActionResult GetMoviesTrailers()
+        {
+            var model = this.Data.Movies
+                .All()
+                .OrderByDescending(x => x.CreatedOn)
+                .Take(3)
+                .Project()
+                .To<MovieHomePageTrailersViewModel>()
+                .ToList();
+
+            return PartialView("_MoviesTrailersPartial", model);
+        }
+
+        [HttpGet]
         public ActionResult GetGallery(int id)
         {
             var model = this.Data.Movies.GetById(id).Gallery.AsQueryable().Project().To<PhotoIndexViewModel>().ToList();
@@ -52,6 +152,7 @@
             return PartialView("_GalleryPartial", model);
         }
 
+        [HttpGet]
         public ActionResult GetMovieAvarageRating(int Id)
         {
             var model = new RatingViewModel();

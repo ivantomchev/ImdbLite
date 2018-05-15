@@ -19,66 +19,46 @@
 
         public IEnumerable<KeyValuePair<string, string>> GetCelebrities()
         {
-            var data = this.cache.Get("Celebrities",
-                () =>
-                {
-                    return this.data.Celebrities
+            return this.data.Celebrities
                         .All()
                         .Select(x => new { Key = x.Id.ToString(), Value = x.FirstName + " " + x.LastName })
                         .OrderBy(x => x.Value)
-                        .AsEnumerable()
-                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
-                });
-
-            return data;
+                        .ToList()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value))
+                        .ToList();
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetGenres()
         {
-            var data = this.cache.Get("Genres",
-                () =>
-                {
-                    return this.data.Genres
+            return this.data.Genres
                         .All()
                         .Select(x => new { Key = x.Id.ToString(), Value = x.Name })
                         .OrderBy(x => x.Value)
-                        .AsEnumerable()
-                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
-                });
-
-            return data;
+                        .ToList()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value))
+                        .ToList();
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetCinemas()
         {
-            var data = this.cache.Get("Cinemas",
-                () =>
-                {
-                    return this.data.Cinemas
+            return this.data.Cinemas
                         .All()
                         .Select(x => new { Key = x.Id.ToString(), Value = x.Name + " - " + x.City.Name })
                         .OrderBy(x => x.Value)
-                        .AsEnumerable()
-                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
-                });
-
-            return data;
+                        .ToList()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value))
+                        .ToList();
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetMovies()
         {
-            var data = this.cache.Get("Movies",
-                () =>
-                {
-                    return this.data.Movies
+            return this.data.Movies
                         .All()
                         .Select(x => new { Key = x.Id.ToString(), Value = x.Title })
                         .OrderBy(x => x.Value)
-                        .AsEnumerable()
-                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value));
-                });
-
-            return data;
+                        .ToList()
+                        .Select(x => new KeyValuePair<string, string>(x.Key, x.Value))
+                        .ToList();
         }
 
         public IEnumerable<KeyValuePair<string, string>> GetCities()
