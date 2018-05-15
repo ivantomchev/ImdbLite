@@ -43,6 +43,32 @@
             return PartialView("_ArticlesGridPartial", data);
         }
 
+        public ActionResult GetCelebrityArticlesListItems(int? take)
+        {
+            var model = this.Data.Articles
+                .All()
+                .Where(a => a.RelatedCelebrities.Any())
+                .Project()
+                .To<ArticleListItemsViewModel>()
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_ArticlesListItemsPartial", model);
+        }
+
+        public ActionResult GetMovieArticlesListItems(int? take)
+        {
+            var model = this.Data.Articles
+                .All()
+                .Where(a => a.RelatedMovies.Any())
+                .Project()
+                .To<ArticleListItemsViewModel>()
+                .Take(take.GetValueOrDefault(10))
+                .ToList();
+
+            return PartialView("_ArticlesListItemsPartial", model);
+        }
+
         public ActionResult GetArticlesListItems(int? take)
         {
             var model = this.Data.Articles
