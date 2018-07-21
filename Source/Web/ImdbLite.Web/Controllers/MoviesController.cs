@@ -5,7 +5,7 @@
     using System.Web.Mvc;
 
     using AutoMapper.QueryableExtensions;
-
+    using ImdbLite.Common;
     using ImdbLite.Data.UnitOfWork;
     using ImdbLite.Web.ViewModels.Movies;
     using ImdbLite.Web.ViewModels.Photos;
@@ -53,14 +53,14 @@
         }
 
         [HttpGet]
-        public ActionResult GetMoviesWithRatingsListItems(int? take, string direction = "asc")
+        public ActionResult GetMoviesWithRatingsListItems(int? take, string direction = GlobalConstants.ASC)
         {
             var query = this.Data.Movies
                 .All()
                 .Project()
                 .To<MovieTopBottomListViewModel>();
 
-            if (direction == "asc")
+            if (direction == GlobalConstants.ASC)
             {
                 query = query.OrderBy(x => x.Rating);
                 ViewBag.Title = "Bottom 10 Movies";
@@ -174,14 +174,10 @@
             return View(model);
         }
 
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Movies.GetById(id) as T;
-        }
+        protected override T GetById<T>(object id) 
+            => this.Data.Movies.GetById(id) as T;
 
-        protected override IQueryable<TViewModel> GetData<TViewModel>()
-        {
-            return this.Data.Movies.All().Project().To<TViewModel>();
-        }
+        protected override IQueryable<TViewModel> GetData<TViewModel>() 
+            => this.Data.Movies.All().Project().To<TViewModel>();
     }
 }

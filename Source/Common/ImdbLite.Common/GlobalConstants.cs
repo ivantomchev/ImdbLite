@@ -15,5 +15,9 @@
         public const string DateTimeDetailedFormatString = "{0:dd MMMM, yyyy}";
 
         public const string ImageDirectory = "~/Files/Images/Gallery/";
+
+        public const string ASC = "asc";
+
+        public const string DESC = "desc";
     }
 }

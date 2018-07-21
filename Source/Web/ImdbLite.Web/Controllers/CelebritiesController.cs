@@ -25,9 +25,7 @@
 
         public ActionResult Index()
         {
-            var model = this.Data.Celebrities.All().SelectMany(x => x.RelatedArticles).Distinct().Project().To<ArticleListItemsViewModel>().Take(10);
-
-            return View(model);
+            return View();
         }
 
         [HttpGet]
@@ -47,7 +45,13 @@
 
         public ActionResult GetGallery(int id)
         {
-            var model = this.Data.Celebrities.GetById(id).Gallery.AsQueryable().Project().To<PhotoIndexViewModel>().ToList();
+            var model = this.Data.Celebrities
+                .All()
+                .Where(c => c.Id == id)
+                .SelectMany(c => c.Gallery)
+                .Project()
+                .To<PhotoIndexViewModel>()
+                .ToList();
 
             return PartialView("_GalleryPartial", model);
         }

@@ -1,5 +1,4 @@
-﻿@model IEnumerable<ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreIndexViewModel>
-@{
+﻿@{
     ViewBag.Title = "Genres";
 }
 @Html.Partial("_ModalDialogPartial")
@@ -12,9 +11,20 @@
 </div>
 <hr>
 <div class="row" id="update-target">
-    @Html.Action("ReadData", "Genres", new { area = GlobalConstants.AdminArea })
+    @Html.ActionAsync("ReadData", "Genres", new { area = GlobalConstants.AdminArea })
 </div>
 
 @section scripts{
     @Scripts.Render("~/bundles/scroll-to-top")
+    <script>
+        $(document).ready(function (e) {
+            $(".partial-content").each(function (index, item) {
+                var $current = $(item);
+                var url = $current.data("url");
+                if (url && url.length > 0) {
+                    $current.load(url);
+                }
+            });
+        })
+    </script>
 }

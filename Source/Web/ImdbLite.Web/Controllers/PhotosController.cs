@@ -14,14 +14,10 @@
         {
         }
 
-        protected override IQueryable<TViewModel> GetData<TViewModel>()
-        {
-            return this.Data.Gallery.All().Project().To<TViewModel>();
-        }
+        protected override IQueryable<TViewModel> GetData<TViewModel>() 
+            => this.Data.Gallery.All().Project().To<TViewModel>();
 
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Gallery.GetById(id) as T;
-        }
+        protected override T GetById<T>(object id) 
+            => this.Data.Gallery.GetById(id) as T;
     }
 }

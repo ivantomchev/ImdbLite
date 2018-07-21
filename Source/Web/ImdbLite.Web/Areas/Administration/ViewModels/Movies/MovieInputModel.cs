@@ -10,18 +10,15 @@
     using AutoMapper;
 
     using ImdbLite.Data.Models;
-    using ImdbLite.Web.Areas.Administration.ViewModels.CastMembers;
+    using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
     using ImdbLite.Web.Infrastructure.Mapping;
 
-    public class MovieInputModel : IMapFrom<Movie>, IHaveCustomMappings, IMovieInputModel
+    public class MovieInputModel : IMapFrom<MovieDTO>, IHaveCustomMappings, IMovieInputModel
     {
         public MovieInputModel()
         {
             this.Characters = new List<CharacterInputModel>();
-            this.CastMembers = new HashSet<CastMemberInputModel>();
-            this.Genres = new HashSet<Genre>();
-            this.Cinemas = new HashSet<Cinema>();
         }
 
         public int Id { get; set; }
@@ -66,8 +63,6 @@
 
         public IList<CharacterInputModel> Characters { get; set; }
 
-        public ICollection<CastMemberInputModel> CastMembers { get; set; }
-
         public IEnumerable<SelectListItem> Celebrities { get; set; }
 
         public IEnumerable<SelectListItem> GenresList { get; set; }
@@ -103,18 +98,22 @@
 
         public void CreateMappings(IConfiguration configuration)
         {
-            //Projest From ViewModel To DbModel
-            configuration.CreateMap<MovieInputModel, Movie>()
+            configuration.CreateMap<MovieInputModel, MovieDTO>()
+                .ForMember(d => d.Genres, opt => opt.MapFrom(s => s.selectedGenres))
+                .ForMember(d => d.Directors, opt => opt.MapFrom(s => s.selectedDirectors))
+                .ForMember(d => d.Producers, opt => opt.MapFrom(s => s.selectedProducers))
+                .ForMember(d => d.Writers, opt => opt.MapFrom(s => s.selectedWriters))
+                .ForMember(d => d.Characters, opt => opt.MapFrom(s => s.selectedCharacters))
+                .ForMember(d => d.Cinemas, opt => opt.MapFrom(s => s.selectedCinemas))
                 .ForMember(d => d.Poster, opt => opt.MapFrom(s => s.FileToUpload != null ? Mapper.Map<MoviePoster>(s.FileToUpload) : s.Poster));
 
-            ////Project From DbModel To ViewModel
-            configuration.CreateMap<Movie, MovieInputModel>()
-                .ForMember(d => d.selectedGenres, opt => opt.MapFrom(s => s.Genres.Select(x => x.Id)))
-                .ForMember(d => d.selectedDirectors, opt => opt.MapFrom(s => s.CastMembers.Where(x => x.Participation == ParticipationType.Director).Select(x => x.CelebrityId)))
-                .ForMember(d => d.selectedProducers, opt => opt.MapFrom(s => s.CastMembers.Where(x => x.Participation == ParticipationType.Producer).Select(x => x.CelebrityId)))
-                .ForMember(d => d.selectedWriters, opt => opt.MapFrom(s => s.CastMembers.Where(x => x.Participation == ParticipationType.Writer).Select(x => x.CelebrityId)))
-                .ForMember(d => d.selectedCharacters, opt => opt.MapFrom(s => s.Characters.Select(x => x.CelebrityId)))
-                .ForMember(d => d.selectedCinemas, opt => opt.MapFrom(s => s.Cinemas.Select(x => x.Id)));
+            configuration.CreateMap<MovieDTO, MovieInputModel>()
+                .ForMember(d => d.selectedGenres, opt => opt.MapFrom(s => s.Genres.Select(x => x)))
+                .ForMember(d => d.selectedDirectors, opt => opt.MapFrom(s => s.Directors))
+                .ForMember(d => d.selectedProducers, opt => opt.MapFrom(s => s.Producers))
+                .ForMember(d => d.selectedWriters, opt => opt.MapFrom(s => s.Writers))
+                .ForMember(d => d.selectedCharacters, opt => opt.MapFrom(s => s.Characters))
+                .ForMember(d => d.selectedCinemas, opt => opt.MapFrom(s => s.Cinemas));
         }
     }
 }

@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    using System.Threading.Tasks;
     using ImdbLite.Data.Models;
 
     public interface IApplicationDbContext
@@ -37,6 +37,8 @@
         IDbSet<Vote> Votes { get; set; }
 
         int SaveChanges();
+
+        Task<int> SaveChangesAsync();
 
         void Dispose();
 

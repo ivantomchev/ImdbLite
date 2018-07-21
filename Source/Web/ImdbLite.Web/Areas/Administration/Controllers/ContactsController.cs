@@ -57,7 +57,7 @@
             {
                 return HttpNotFound();
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -70,7 +70,7 @@
             {
                 return RedirectToAction("Index");
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -78,7 +78,7 @@
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -92,7 +92,7 @@
             {
                 return RedirectToAction("Index");
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 

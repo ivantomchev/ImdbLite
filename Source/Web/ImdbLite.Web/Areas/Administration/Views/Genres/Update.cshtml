@@ -1,6 +1,6 @@
 ﻿@model ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreUpdateModel
 
-@using (Html.BeginForm("Create", "Genres", new { area = GlobalConstants.AdminArea }, FormMethod.Post))
+@using (Html.BeginForm("Update", "Genres", new { area = GlobalConstants.AdminArea }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

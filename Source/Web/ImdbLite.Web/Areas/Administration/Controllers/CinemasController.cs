@@ -62,8 +62,8 @@
             {
                 return HttpNotFound();
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
-            model.MoviesList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesList = this.populator.Movies.ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -80,8 +80,8 @@
                 this.ClearCinemasCache();
                 return RedirectToAction("Index");
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
-            model.MoviesList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesList = this.populator.Movies.ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
@@ -90,8 +90,8 @@
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
-            model.MoviesList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesList = this.populator.Movies.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 
@@ -108,8 +108,8 @@
                 this.ClearCinemasCache();
                 return RedirectToAction("Index");
             }
-            model.CitiesList = this.populator.GetCities().ToSelectList(x => x.Value, x => x.Key);
-            model.MoviesList = this.populator.GetMovies().ToSelectList(x => x.Value, x => x.Key);
+            model.CitiesList = this.populator.Cities.ToSelectList(x => x.Value, x => x.Key);
+            model.MoviesList = this.populator.Movies.ToSelectList(x => x.Value, x => x.Key);
             return View(model);
         }
 

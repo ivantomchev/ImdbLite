@@ -36,7 +36,7 @@
             if (model != null && ModelState.IsValid)
             {
                 var dbModel = this.GetById<TModel>(id);
-                Mapper.Map<TViewModel, TModel>(model, dbModel);
+                Mapper.Map(model, dbModel);
                 this.ChangeEntityStateAndSave(dbModel, EntityState.Modified);
 
                 return dbModel;

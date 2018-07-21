@@ -58,7 +58,7 @@ namespace ImdbLite.Data.Migrations
                 new Genre{Name = "Thriller",CreatedOn=DateTime.Now},
                 new Genre{Name = "War",CreatedOn=DateTime.Now},
                 new Genre{Name = "Western",CreatedOn=DateTime.Now},
-       
+
             };
 
             genres.ForEach(g => context.Genres.AddOrUpdate(p => p.Name, g));

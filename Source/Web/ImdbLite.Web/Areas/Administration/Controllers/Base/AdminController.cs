@@ -69,7 +69,7 @@
             if (model != null && ModelState.IsValid)
             {
                 var dbModel = this.GetById<TModel>(id);
-                Mapper.Map<TViewModel, TModel>(model, dbModel);
+                Mapper.Map(model, dbModel);
                 this.ChangeEntityStateAndSave(dbModel, EntityState.Modified);
 
                 return dbModel;
@@ -129,15 +129,11 @@
             this.Data.SaveChanges();
         }
 
-        protected JsonResult GridOperation()
-        {
-            return Json(new { success = true });
-        }
+        protected JsonResult GridOperation() 
+            => Json(new { success = true });
 
-        protected JsonResult GridOperationAjaxRefreshData()
-        {
-            return Json(new { success = true, url = this.GetReadDataActionUrl() });
-        }
+        protected JsonResult GridOperationAjaxRefreshData() 
+            => Json(new { success = true, url = this.GetReadDataActionUrl() });
 
         private bool TryUploadPhoto(HttpPostedFileBase file)
         {

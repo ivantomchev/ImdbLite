@@ -70,23 +70,18 @@
             return InputExtensions.TextBoxFor<TModel, TProperty>(htmlHelper, expression, attributes);
         }
 
-        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName)
-        {
-            return ActionAsync(helper, actionName, null, null);
-        }
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName) 
+            => ActionAsync(helper, actionName, null, null);
 
         public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, object routeValues = null)
         {
-            object controllerName = null;
-            helper.ViewContext.RouteData.Values.TryGetValue("controller", out controllerName);
+            helper.ViewContext.RouteData.Values.TryGetValue("controller", out object controllerName);
 
             return ActionAsync(helper, actionName, controllerName.ToString(), routeValues);
         }
 
-        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, string controllerName)
-        {
-            return ActionAsync(helper, actionName, controllerName.ToString(), null);
-        }
+        public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, string controllerName) 
+            => ActionAsync(helper, actionName, controllerName.ToString(), null);
 
         public static MvcHtmlString ActionAsync(this HtmlHelper helper, string actionName, string controllerName, object routeValues = null)
         {

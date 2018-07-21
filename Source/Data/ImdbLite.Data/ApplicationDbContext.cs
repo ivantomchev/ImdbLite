@@ -3,24 +3,21 @@
     using System;
     using System.Data.Entity;
     using System.Linq;
-
-    using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Threading.Tasks;
 
     using ImdbLite.Data.Common.Models;
     using ImdbLite.Data.Migrations;
     using ImdbLite.Data.Models;
 
+    using Microsoft.AspNet.Identity.EntityFramework;
+
     public class ApplicationDbContext : IdentityDbContext<User>, IApplicationDbContext
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
-        {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
-        }
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
+            => Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
+
+        public static ApplicationDbContext Create() => new ApplicationDbContext();
 
         public virtual IDbSet<Celebrity> Celebrities { get; set; }
 
@@ -56,6 +53,12 @@
             return base.SaveChanges();
         }
 
+        public override async Task<int> SaveChangesAsync()
+        {
+            this.ApplyAuditInfoRules();
+            return await base.SaveChangesAsync();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CelebrityMainPhoto>().HasKey(x => x.CelebrityId);
@@ -73,20 +76,17 @@
         private void ApplyAuditInfoRules()
         {
             // Approach via @julielerman: http://bit.ly/123661P
-            foreach (var entry in
-                this.ChangeTracker.Entries()
-                    .Where(
-                        e =>
-                        e.Entity is IAuditInfo && ((e.State == EntityState.Added) || (e.State == EntityState.Modified))))
+            var entries = this.ChangeTracker
+                    .Entries()
+                    .Where(e => e.Entity is IAuditInfo && ((e.State == EntityState.Added) || (e.State == EntityState.Modified)));
+
+            foreach (var entry in entries)
             {
                 var entity = (IAuditInfo)entry.Entity;
 
-                if (entry.State == EntityState.Added)
+                if (entry.State == EntityState.Added && !entity.PreserveCreatedOn)
                 {
-                    if (!entity.PreserveCreatedOn)
-                    {
-                        entity.CreatedOn = DateTime.Now;
-                    }
+                    entity.CreatedOn = DateTime.Now;
                 }
                 else
                 {
@@ -95,14 +95,8 @@
             }
         }
 
-        public new IDbSet<T> Set<T>() where T : class
-        {
-            return base.Set<T>();
-        }
+        public new IDbSet<T> Set<T>() where T : class => base.Set<T>();
 
-        protected override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-        }
+        protected override void Dispose(bool disposing) => base.Dispose(disposing);
     }
 }

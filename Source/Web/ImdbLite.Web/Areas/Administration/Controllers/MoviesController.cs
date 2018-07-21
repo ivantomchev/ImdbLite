@@ -1,38 +1,38 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
 
+    using ImdbLite.Common.Extensions;
     using ImdbLite.Data.UnitOfWork;
-    using ImdbLite.Data.Models;
+    using ImdbLite.Services.Data.DTOs;
+    using ImdbLite.Services.Data.Interfaces;
     using ImdbLite.Web.Areas.Administration.Controllers.Base;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
-    using ImdbLite.Web.Areas.Administration.ViewModels.CastMembers;
-    using ImdbLite.Common.Extensions;
+    using ImdbLite.Web.Infrastructure.Populators;
 
-    using DbModel = ImdbLite.Data.Models.Movie;
+    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieDeleteViewModel;
     using IndexViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieIndexViewModel;
     using InputModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieInputModel;
-    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieDeleteViewModel;
     using UpdateModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieUpdateModel;
-    using ImdbLite.Web.Infrastructure.Caching;
-    using ImdbLite.Web.Infrastructure.Populators;
 
     public class MoviesController : AdminController
     {
-        private IDropDownListPopulator populator;
-        private readonly ICacheService service;
+        private readonly IDropDownListPopulator _populator;
+        private readonly IMoviesService _moviesService;
         private const int PageSize = 10;
 
-        public MoviesController(IImdbLiteData data, IDropDownListPopulator populator, ICacheService service)
+        public MoviesController(IImdbLiteData data, IDropDownListPopulator populator, IMoviesService moviesService)
             : base(data)
         {
-            this.populator = populator;
-            this.service = service;
+            _populator = populator;
+            _moviesService = moviesService;
         }
 
         public ActionResult Index()
@@ -69,222 +69,99 @@
         }
 
         [HttpGet]
-        public ActionResult Update(int? id)
+        public async Task<ActionResult> Update(int id)
         {
-            var model = base.GetViewModel<DbModel, UpdateModel>(id);
-            if (model == null)
+            var movie = await _moviesService.GetByIdAsync(id);
+            if (movie == null)
             {
                 return HttpNotFound();
             }
 
-            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
-            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
-            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
+            var viewModel = Mapper.Map<UpdateModel>(movie);
+            viewModel.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key).ToList();
+            viewModel.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
+            viewModel.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
 
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(UpdateModel model)
+        public async Task<ActionResult> Update(UpdateModel model)
         {
-            //TODO More appropriate Update Action
+            if (!ModelState.IsValid)
+            {
+                model.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key);
+                model.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
+                model.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
+                return View(model);
+            }
 
-            //var celebritiesIds = model.selectedDirectors
-            //    .Concat(model.selectedProducers)
-            //    .Concat(model.selectedWriters)
-            //    .Distinct();
+            var movie = Mapper.Map<MovieDTO>(model);
 
-            //var selectedCelebrities = this.Data.Celebrities
-            //    .All()
-            //    .Where(c => celebritiesIds.Contains(c.Id))
-            //    .ToList();
+            await _moviesService.UpdateAsync(movie);
 
-            //var directors = selectedCelebrities
-            //    .Where(c => model.selectedDirectors.Contains(c.Id))
-            //    .Select(c => new CastMemberInputModel
-            //    {
-            //        CelebrityId = c.Id,
-            //        Participation = ParticipationType.Director
-            //    })
-            //    .ToList();
-
-            //var producers = selectedCelebrities
-            //    .Where(c => model.selectedProducers.Contains(c.Id))
-            //    .Select(c => new CastMemberInputModel
-            //    {
-            //        CelebrityId = c.Id,
-            //        Participation = ParticipationType.Producer
-            //    })
-            //    .ToList();
-
-            //var writers = selectedCelebrities
-            //    .Where(c => model.selectedWriters.Contains(c.Id))
-            //    .Select(c => new CastMemberInputModel
-            //    {
-            //        CelebrityId = c.Id,
-            //        Participation = ParticipationType.Writer
-            //    })
-            //    .ToList();
-
-            //model.CastMembers = directors
-            //    .Concat(producers)
-            //    .Concat(writers)
-            //    .ToList();
-
-            //model.Genres = this.Data.Genres
-            //    .All()
-            //    .Where(g => model.selectedGenres.Contains(g.Id))
-            //    .ToList();
-
-            //model.Cinemas = this.Data.Cinemas
-            //    .All()
-            //    .Where(c => model.selectedCinemas.Contains(c.Id))
-            //    .ToList();
-
-            //this.Data.Characters
-            //    .All()
-            //    .Where(x => x.MovieId == model.Id && !model.selectedCharacters.Contains(x.Id))
-            //    .ForEach(this.Data.Characters.ActualDelete);
-
-            //this.Data.CastMembers
-            //    .All()
-            //    .Where(x => x.MovieId == model.Id && !celebritiesIds.Contains(x.Id))
-            //    .ForEach(this.Data.CastMembers.ActualDelete);
-
-            //var dbModel = base.Update<DbModel, UpdateModel>(model, model.Id);
-            //if (dbModel != null)
-            //{
-            //    this.ClearMoviesCache();
-            //    return RedirectToAction("Index");
-            //}
-
-            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
-            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
-            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
-            return View(model);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Create()
         {
             var model = new InputModel();
-            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
-            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
-            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
+            model.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key);
+            model.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
+            model.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(InputModel model)
+        public async Task<ActionResult> Create(InputModel model)
         {
-            PopulateSelectedGenres(model.Genres, model.selectedGenres);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedDirectors, ParticipationType.Director);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedProducers, ParticipationType.Producer);
-            PopulateSelectedCastMembers(model.CastMembers, model.selectedWriters, ParticipationType.Writer);
-            PopulateSelectedCinemas(model.Cinemas, model.selectedCinemas);
-
-            var dbModel = base.Create<DbModel>(model);
-            if (dbModel != null)
+            if (!ModelState.IsValid)
             {
-                this.ClearMoviesCache();
-                return RedirectToAction("Index");
+                model.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key);
+                model.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
+                model.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
+                return View(model);
             }
 
-            model.Celebrities = this.populator.GetCelebrities().ToSelectList(x => x.Value, x => x.Key);
-            model.GenresList = this.populator.GetGenres().ToSelectList(x => x.Value, x => x.Key);
-            model.CinemasList = this.populator.GetCinemas().ToSelectList(x => x.Value, x => x.Key);
-            return View(model);
+            var movie = Mapper.Map<MovieDTO>(model);
+
+            var result = await _moviesService.AddAsync(movie);
+            if (result == null)
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public ActionResult ActualDelete(int? id)
-        {
-            var model = base.GetViewModel<DbModel, DeleteViewModel>(id);
+        //[HttpGet]
+        //public ActionResult ActualDelete(int? id)
+        //{
+        //    var model = base.GetViewModel<DbModel, DeleteViewModel>(id);
 
-            return PartialView("_DeleteMoviePartial", model);
-        }
+        //    return PartialView("_DeleteMoviePartial", model);
+        //}
 
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult ActualDelete(DeleteViewModel model)
-        {
-            base.ActualDelete<DbModel>(model.Id);
-            this.ClearMoviesCache();
+        //[ValidateAntiForgeryToken]
+        //[HttpPost]
+        //public ActionResult ActualDelete(DeleteViewModel model)
+        //{
+        //    base.ActualDelete<DbModel>(model.Id);
 
-            return base.GridOperationAjaxRefreshData();
-        }
+        //    return base.GridOperationAjaxRefreshData();
+        //}
 
         protected override T GetById<T>(object id)
-        {
-            return this.Data.Movies.GetById(id) as T;
-        }
+            => this.Data.Movies.GetById(id) as T;
 
         protected override IQueryable<TViewModel> GetData<TViewModel>()
-        {
-            return this.Data.Movies.All().Project().To<TViewModel>();
-        }
+            => this.Data.Movies.All().Project().To<TViewModel>();
 
         protected override string GetReadDataActionUrl()
-        {
-            return Url.Action("ReadData", "Movies");
-        }
-
-        private void PopulateSelectedCastMembers(ICollection<CastMemberInputModel> castMembers, int[] selectedCelebrities, ParticipationType participation)
-        {
-            if (selectedCelebrities != null)
-            {
-                foreach (var celebrityId in selectedCelebrities)
-                {
-                    var castMember = new CastMemberInputModel();
-                    castMember.CelebrityId = celebrityId;
-                    castMember.Participation = participation;
-
-                    castMembers.Add(castMember);
-                }
-            }
-        }
-
-        private void PopulateSelectedGenres(ICollection<Genre> genres, int[] selectedGenres)
-        {
-            if (selectedGenres != null)
-            {
-                foreach (var genreId in selectedGenres)
-                {
-                    var currentGenre = this.Data.Genres.GetById(genreId);
-
-                    genres.Add(currentGenre);
-                }
-            }
-        }
-
-        private void PopulateSelectedCinemas(ICollection<Cinema> cinemas, int[] selectedCinemas)
-        {
-            if (selectedCinemas != null)
-            {
-                foreach (var cinemaId in selectedCinemas)
-                {
-                    var currentCinema = this.Data.Cinemas.GetById(cinemaId);
-
-                    cinemas.Add(currentCinema);
-                }
-            }
-        }
-
-        private void ClearMovieCollections(int movieId)
-        {
-            var characters = this.Data.Characters.All().Where(x => x.MovieId == movieId);
-            var castmembers = this.Data.CastMembers.All().Where(x => x.MovieId == movieId);
-
-            characters.ForEach(this.Data.Characters.ActualDelete);
-            castmembers.ForEach(this.Data.CastMembers.ActualDelete);
-        }
-
-        public void ClearMoviesCache()
-        {
-            this.service.Clear("Movies");
-        }
+            => Url.Action("ReadData", "Movies");
     }
 }

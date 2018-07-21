@@ -16,6 +16,8 @@ namespace ImdbLite.Web.App_Start
     using ImdbLite.Data.UnitOfWork;
     using ImdbLite.Web.Infrastructure.Caching;
     using ImdbLite.Web.Infrastructure.Populators;
+    using ImdbLite.Services.Data;
+    using ImdbLite.Services.Data.Interfaces;
 
     public static class NinjectWebCommon
     {
@@ -67,8 +69,6 @@ namespace ImdbLite.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            //kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>();
-
             kernel.Bind<IApplicationDbContext>().To<ApplicationDbContext>().InRequestScope();
 
             kernel.Bind<IImdbLiteData>().To<ImdbLiteData>();
@@ -81,6 +81,9 @@ namespace ImdbLite.Web.App_Start
             kernel.Bind<ICacheService>().To<InMemoryCache>();
 
             kernel.Bind<IDropDownListPopulator>().To<DropDownListPopulator>();
+
+            kernel.Bind<IGenresService>().To<GenresService>().InTransientScope();
+            kernel.Bind<IMoviesService>().To<MoviesService>().InTransientScope();
         }
     }
 }

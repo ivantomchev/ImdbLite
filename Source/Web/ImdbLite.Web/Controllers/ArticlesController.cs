@@ -105,14 +105,10 @@
             return View(model);
         }
 
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Articles.GetById(id) as T;
-        }
+        protected override T GetById<T>(object id) 
+            => this.Data.Articles.GetById(id) as T;
 
-        protected override IQueryable<TViewModel> GetData<TViewModel>()
-        {
-            return this.Data.Articles.All().Project().To<TViewModel>();
-        }
+        protected override IQueryable<TViewModel> GetData<TViewModel>() 
+            => this.Data.Articles.All().Project().To<TViewModel>();
     }
 }

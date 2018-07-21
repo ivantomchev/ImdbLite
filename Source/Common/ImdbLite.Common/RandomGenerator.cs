@@ -7,7 +7,7 @@
     {
         private const string Letters = "ABCDEFGHIJKLMNOPQRSTUWXVYZabcdefghijklmnopqrstuwxvyz";
 
-        private Random random;
+        private readonly Random random;
 
         public RandomGenerator()
         {

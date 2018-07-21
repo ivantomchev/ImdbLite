@@ -2,10 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Web.Infrastructure.Mapping;
-    using ImdbLite.Data.Models;
 
-    public class GenreInputModel : IMapFrom<Genre>
+    public class GenreInputModel : IMapFrom<GenreDTO>
     {
         [Required]
         [StringLength(30, MinimumLength = 2)]

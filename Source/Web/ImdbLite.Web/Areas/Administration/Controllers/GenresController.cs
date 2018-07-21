@@ -1,138 +1,122 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.Controllers
 {
-    using System.Linq;
     using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Web.Mvc;
 
+    using AutoMapper;
     using AutoMapper.QueryableExtensions;
 
-    using ImdbLite.Data.UnitOfWork;
-    using ImdbLite.Web.Areas.Administration.Controllers.Base;
+    using ImdbLite.Services.Data;
+    using ImdbLite.Services.Data.DTOs;
+    using ImdbLite.Web.Areas.Administration.ViewModels.Genres;
 
-    using DbModel = ImdbLite.Data.Models.Genre;
-    using InputModel = ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreInputModel;
-    using IndexViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreIndexViewModel;
-    using UpdateModel = ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreUpdateModel;
-    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Genres.GenreIndexViewModel;
-    using ImdbLite.Web.Infrastructure.Caching;
-
-    public class GenresController : AdminController
+    public class GenresController : Controller
     {
-        private readonly ICacheService service;
         private const int PageSize = 10;
+        private readonly IGenresService _genresService;
 
-        public GenresController(IImdbLiteData data, ICacheService service)
-            : base(data)
+        public GenresController(IGenresService genresService)
         {
-            this.service = service;
+            _genresService = genresService;
         }
 
-        public ActionResult Index()
+        public ActionResult Index() => View();
+
+        public async Task<ActionResult> ReadData(int page = 1)
         {
-            var data = this.GetData<IndexViewModel>();
+            var genres = await _genresService.GetAsync();
 
-            return View(data);
-        }
+            var viewModel = genres
+                .OrderByDescending(x => x.CreatedOn)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .AsQueryable()
+                .Project()
+                .To<GenreIndexViewModel>();
 
-        public ActionResult ReadData(int? Id)
-        {
-            int pageNumber = Id.GetValueOrDefault(1);
-            var count = (double)GetData<IndexViewModel>().Count();
-            var data = GetData<IndexViewModel>().OrderByDescending(x => x.CreatedOn).Skip((pageNumber - 1) * PageSize).Take(PageSize);
+            ViewBag.Pages = Math.Ceiling((double)genres.Count() / PageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.PreviousPage = page - 1;
+            ViewBag.NextPage = page + 1;
 
-            ViewBag.Pages = Math.Ceiling(count / PageSize);
-            ViewBag.CurrentPage = pageNumber;
-            ViewBag.PreviousPage = pageNumber - 1;
-            ViewBag.NextPage = pageNumber + 1;
-
-            return PartialView("_ReadGenresPartial", data);
+            return PartialView("_ReadGenresPartial", viewModel);
         }
 
         [HttpGet]
-        public ActionResult Update(int? id)
+        public async Task<ActionResult> Update(int id)
         {
-            var model = base.GetViewModel<DbModel, UpdateModel>(id);
-            if (model == null)
+            var genre = await _genresService.GetByIdAsync(id);
+            if (genre == null)
+            {
+                return HttpNotFound();
+            }
+            var viewModel = Mapper.Map<GenreUpdateModel>(genre);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Update(GenreUpdateModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var genre = await _genresService.GetByIdAsync(model.Id);
+            if (genre == null)
             {
                 return HttpNotFound();
             }
 
-            return View(model);
-        }
+            Mapper.Map(model, genre);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Update(UpdateModel model)
-        {
-            var dbModel = base.Update<DbModel, UpdateModel>(model, model.Id);
-            if (dbModel != null)
-            {
-                this.ClearGenresCache();
-                return RedirectToAction("Index");
-            }
+            await _genresService.UpdateAsync(genre);
 
-            return View(model);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult Create()
-        {
-            var model = new InputModel();
-
-            return View(model);
-        }
+        public ActionResult Create() => View();
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Create(InputModel model)
+        public async Task<ActionResult> Create(GenreInputModel model)
         {
-            var dbModel = base.Create<DbModel>(model);
-
-            if (dbModel != null)
+            if (!ModelState.IsValid)
             {
-                this.ClearGenresCache();
-                return RedirectToAction("Index");
+                return View(model);
             }
 
-            return View(model);
+            var genre = Mapper.Map<GenreDTO>(model);
+
+            var result = await _genresService.AddAsync(genre);
+            if (result == null)
+            {
+                return View("Error");
+            }
+
+            return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public ActionResult ActualDelete(int? id)
-        {
-            var model = base.GetViewModel<DbModel, DeleteViewModel>(id);
+        //[HttpGet]
+        //public ActionResult ActualDelete(int? id)
+        //{
+        //    var model = base.GetViewModel<DbModel, DeleteViewModel>(id);
 
-            return PartialView("_DeleteGenrePartial", model);
-        }
+        //    return PartialView("_DeleteGenrePartial", model);
+        //}
 
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public ActionResult ActualDelete(DeleteViewModel model)
-        {
-            base.ActualDelete<DbModel>(model.Id);
-            this.ClearGenresCache();
+        //[ValidateAntiForgeryToken]
+        //[HttpPost]
+        //public ActionResult ActualDelete(DeleteViewModel model)
+        //{
+        //    base.ActualDelete<DbModel>(model.Id);
 
-            return base.GridOperationAjaxRefreshData();
-        }
-
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Genres.GetById(id) as T;
-        }
-
-        protected override IQueryable<TViewModel> GetData<TViewModel>()
-        {
-            return this.Data.Genres.All().Project().To<TViewModel>();
-        }
-
-        protected override string GetReadDataActionUrl()
-        {
-            return Url.Action("ReadData","Genres");
-        }
-
-        private void ClearGenresCache()
-        {
-            this.service.Clear("Genres");
-        }
+        //    return base.GridOperationAjaxRefreshData();
+        //}
     }
 }

@@ -1,9 +1,5 @@
 ﻿namespace ImdbLite.Data.UnitOfWork
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using ImdbLite.Data.Common.Repository;
@@ -38,5 +34,7 @@
         IDeletableEntityRepository<Vote> Votes { get; }
 
         int SaveChanges();
+
+        Task<int> SaveChangesAsync();
     }
 }

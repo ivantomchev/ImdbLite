@@ -6,7 +6,6 @@
     using System.Web.Mvc;
 
     using ImdbLite.Data.Models;
-    using ImdbLite.Web.Areas.Administration.ViewModels.CastMembers;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
     using System;
 
@@ -52,17 +51,11 @@
 
         IList<CharacterInputModel> Characters { get; set; }
 
-        ICollection<CastMemberInputModel> CastMembers { get; set; }
-
         IEnumerable<SelectListItem> Celebrities { get; set; }
 
         IEnumerable<SelectListItem> GenresList { get; set; }
 
         IEnumerable<SelectListItem> CinemasList { get; set; }
-
-        ICollection<Genre> Genres { get; set; }
-
-        ICollection<Cinema> Cinemas { get; set; }
 
         [Display(Name = "Cinemas")]
         int[] selectedCinemas { get; set; }
