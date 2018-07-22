@@ -13,6 +13,7 @@
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
     using ImdbLite.Web.Infrastructure.Attributes;
     using ImdbLite.Services.Data.DTOs;
+    using System.Linq;
 
     public class MovieUpdateModel : IMapFrom<MovieDTO>, IHaveCustomMappings, IMovieInputModel
     {
@@ -94,21 +95,24 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<MovieUpdateModel, MovieDTO>()
+                .ForMember(d => d.TheaterReleaseDate, opt => opt.MapFrom(s => s.ReleaseDate))
                 .ForMember(d => d.Genres, opt => opt.MapFrom(s => s.selectedGenres))
                 .ForMember(d => d.Directors, opt => opt.MapFrom(s => s.selectedDirectors))
                 .ForMember(d => d.Producers, opt => opt.MapFrom(s => s.selectedProducers))
                 .ForMember(d => d.Writers, opt => opt.MapFrom(s => s.selectedWriters))
-                .ForMember(d => d.Characters, opt => opt.MapFrom(s => s.selectedCharacters))
+                .ForMember(d => d.Characters, opt => opt.MapFrom(s => s.Characters))
                 .ForMember(d => d.Cinemas, opt => opt.MapFrom(s => s.selectedCinemas))
                 .ForMember(d => d.Poster, opt => opt.MapFrom(s => s.FileToUpload != null ? Mapper.Map<MoviePoster>(s.FileToUpload) : s.Poster));
 
             configuration.CreateMap<MovieDTO, MovieUpdateModel>()
+                .ForMember(d => d.ReleaseDate, opt => opt.MapFrom(s => s.TheaterReleaseDate))
                 .ForMember(d => d.selectedGenres, opt => opt.MapFrom(s => s.Genres))
                 .ForMember(d => d.selectedDirectors, opt => opt.MapFrom(s => s.Directors))
                 .ForMember(d => d.selectedProducers, opt => opt.MapFrom(s => s.Producers))
                 .ForMember(d => d.selectedWriters, opt => opt.MapFrom(s => s.Writers))
-                .ForMember(d => d.selectedCharacters, opt => opt.MapFrom(s => s.Characters))
-                .ForMember(d => d.selectedCinemas, opt => opt.MapFrom(s => s.Cinemas));
+                .ForMember(d => d.selectedCinemas, opt => opt.MapFrom(s => s.Cinemas))
+                .ForMember(d => d.selectedCharacters, opt => opt.MapFrom(s => s.Characters.Select(c => c.CelebrityId)))
+                .ForMember(d => d.Characters, opt => opt.MapFrom(s => s.Characters));
         }
 
     }

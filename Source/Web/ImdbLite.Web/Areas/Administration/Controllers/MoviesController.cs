@@ -15,12 +15,11 @@
     using ImdbLite.Services.Data.Interfaces;
     using ImdbLite.Web.Areas.Administration.Controllers.Base;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
+    using ImdbLite.Web.Areas.Administration.ViewModels.Movies;
     using ImdbLite.Web.Infrastructure.Populators;
 
     using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieDeleteViewModel;
     using IndexViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieIndexViewModel;
-    using InputModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieInputModel;
-    using UpdateModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieUpdateModel;
 
     public class MoviesController : AdminController
     {
@@ -35,12 +34,7 @@
             _moviesService = moviesService;
         }
 
-        public ActionResult Index()
-        {
-            var data = GetData<IndexViewModel>();
-
-            return View(data);
-        }
+        public ActionResult Index() => View();
 
         public ActionResult ReadData(int? Id)
         {
@@ -59,7 +53,7 @@
         [HttpPost]
         public ActionResult AddCharacters(IList<CharacterInputModel> dynamicallyAddedCharacters)
         {
-            var model = new InputModel();
+            var model = new MovieInputModel();
             if (dynamicallyAddedCharacters != null)
             {
                 model.Characters = dynamicallyAddedCharacters;
@@ -77,7 +71,7 @@
                 return HttpNotFound();
             }
 
-            var viewModel = Mapper.Map<UpdateModel>(movie);
+            var viewModel = Mapper.Map<MovieUpdateModel>(movie);
             viewModel.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key).ToList();
             viewModel.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
             viewModel.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
@@ -87,7 +81,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(UpdateModel model)
+        public async Task<ActionResult> Update(MovieUpdateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +101,7 @@
         [HttpGet]
         public ActionResult Create()
         {
-            var model = new InputModel();
+            var model = new MovieInputModel();
             model.Celebrities = _populator.Celebrities.ToSelectList(x => x.Value, x => x.Key);
             model.GenresList = _populator.Genres.ToSelectList(x => x.Value, x => x.Key);
             model.CinemasList = _populator.Cinemas.ToSelectList(x => x.Value, x => x.Key);
@@ -117,7 +111,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(InputModel model)
+        public async Task<ActionResult> Create(MovieInputModel model)
         {
             if (!ModelState.IsValid)
             {

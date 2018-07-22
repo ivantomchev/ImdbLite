@@ -41,7 +41,14 @@
                                 Directors = m.CastMembers.Where(c => c.Participation == ParticipationType.Director).Select(c => c.CelebrityId),
                                 Producers = m.CastMembers.Where(c => c.Participation == ParticipationType.Producer).Select(c => c.CelebrityId),
                                 Writers = m.CastMembers.Where(c => c.Participation == ParticipationType.Writer).Select(c => c.CelebrityId),
-                                Characters = m.Characters.Select(c => new CharacterDTO { Id = c.Id, Name = c.CharacterName, CelebrityId = c.CelebrityId, MovieId = c.MovieId }),
+                                Characters = m.Characters.Select(c => new CharacterDTO
+                                {
+                                    Id = c.Id,
+                                    Name = c.CharacterName,
+                                    CelebrityName = c.Celebrity.FirstName + " " + c.Celebrity.LastName,
+                                    CelebrityId = c.CelebrityId,
+                                    MovieId = c.MovieId
+                                }),
                             })
                             .SingleAsync();
         }
@@ -77,6 +84,10 @@
             {
                 dbModel.Cinemas.Add(_data.Context.Cinemas.Attach(new Cinema { Id = id }));
             });
+            movie.Characters.ForEach(c =>
+            {
+                dbModel.Characters.Add(new Character { CharacterName = c.Name, CelebrityId = c.CelebrityId });
+            });
 
             var result = _data.Movies.Add(dbModel);
             await _data.SaveChangesAsync();
@@ -98,8 +109,8 @@
             dbModel.Poster.Type = movie.Poster.Type;
             dbModel.Poster.FileExtension = movie.Poster.FileExtension;
 
-            var allCastMembers = dbModel.CastMembers
-                .ToList();
+            var allCastMembers = dbModel.CastMembers.ToList();
+            var allCharacters = dbModel.Characters.ToList();
 
             var directors = allCastMembers
                 .Where(c => c.Participation == ParticipationType.Director);
@@ -120,6 +131,10 @@
                 .Where(c => !movie.Writers.Contains(c.CelebrityId))
                 .ForEach(c => { _data.CastMembers.ActualDelete(c); });
 
+            allCharacters
+                .Where(c => !movie.Characters.Select(x => x.Id).Contains(c.Id))
+                .ForEach(c => { _data.Characters.ActualDelete(c); });
+
             movie.Directors
                 .Where(c => !directors.Select(d => d.CelebrityId).Contains(c))
                 .Select(c => new CastMember { Participation = ParticipationType.Director, CelebrityId = c, MovieId = movie.Id })
@@ -134,6 +149,21 @@
                 .Where(c => !writers.Select(d => d.CelebrityId).Contains(c))
                 .Select(c => new CastMember { Participation = ParticipationType.Writer, CelebrityId = c, MovieId = movie.Id })
                 .ForEach(c => { _data.CastMembers.Add(c); });
+
+            movie.Characters
+                .ForEach(c =>
+                {
+                    var dbCharacter = allCharacters.FirstOrDefault(x => x.Id == c.Id);
+                    if (dbCharacter == null)
+                    {
+                        dbModel.Characters.Add(new Character { CelebrityId = c.CelebrityId, CharacterName = c.Name });
+                    }
+                    else
+                    {
+                        dbCharacter.CelebrityId = c.CelebrityId;
+                        dbCharacter.CharacterName = c.Name;
+                    }
+                });
 
             _data.Movies.Update(dbModel);
             await _data.SaveChangesAsync();

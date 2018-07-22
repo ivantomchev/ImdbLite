@@ -6,18 +6,19 @@ namespace ImdbLite.Web.App_Start
     using System;
     using System.Web;
 
+    using ImdbLite.Data;
+    using ImdbLite.Data.Common.Repository;
+    using ImdbLite.Data.UnitOfWork;
+    using ImdbLite.Services.Data;
+    using ImdbLite.Services.Data.Interfaces;
+    using ImdbLite.Web.Infrastructure.Caching;
+    using ImdbLite.Web.Infrastructure.Populators;
+
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
     using Ninject.Web.Common;
-
-    using ImdbLite.Data;
-    using ImdbLite.Data.Common.Repository;
-    using ImdbLite.Data.UnitOfWork;
-    using ImdbLite.Web.Infrastructure.Caching;
-    using ImdbLite.Web.Infrastructure.Populators;
-    using ImdbLite.Services.Data;
-    using ImdbLite.Services.Data.Interfaces;
+    using Ninject.Web.Common.WebHost;
 
     public static class NinjectWebCommon
     {
