@@ -14,39 +14,56 @@
 
         private readonly Dictionary<Type, object> repositories = new Dictionary<Type, object>();
 
-        public ImdbLiteData(IApplicationDbContext context) => this._context = context;
+        public ImdbLiteData(IApplicationDbContext context) 
+            => this._context = context;
 
-        public IApplicationDbContext Context => this._context;
+        public IApplicationDbContext Context 
+            => this._context;
 
-        public IDeletableEntityRepository<User> Users => this.GetDeletableEntityRepository<User>();
+        public IDeletableEntityRepository<User> Users 
+            => this.GetDeletableEntityRepository<User>();
 
-        public IDeletableEntityRepository<Celebrity> Celebrities => this.GetDeletableEntityRepository<Celebrity>();
+        public IDeletableEntityRepository<Celebrity> Celebrities
+            => this.GetDeletableEntityRepository<Celebrity>();
 
-        public IDeletableEntityRepository<Movie> Movies => this.GetDeletableEntityRepository<Movie>();
+        public IDeletableEntityRepository<Movie> Movies 
+            => this.GetDeletableEntityRepository<Movie>();
 
-        public IDeletableEntityRepository<Genre> Genres => this.GetDeletableEntityRepository<Genre>();
+        public IDeletableEntityRepository<Genre> Genres
+            => this.GetDeletableEntityRepository<Genre>();
 
-        public IDeletableEntityRepository<Character> Characters => this.GetDeletableEntityRepository<Character>();
+        public IDeletableEntityRepository<Character> Characters 
+            => this.GetDeletableEntityRepository<Character>();
 
-        public IDeletableEntityRepository<CastMember> CastMembers => this.GetDeletableEntityRepository<CastMember>();
+        public IDeletableEntityRepository<CastMember> CastMembers 
+            => this.GetDeletableEntityRepository<CastMember>();
 
-        public IDeletableEntityRepository<Photo> Gallery => this.GetDeletableEntityRepository<Photo>();
+        public IDeletableEntityRepository<Photo> Gallery 
+            => this.GetDeletableEntityRepository<Photo>();
 
-        public IDeletableEntityRepository<Cinema> Cinemas => this.GetDeletableEntityRepository<Cinema>();
+        public IDeletableEntityRepository<Cinema> Cinemas 
+            => this.GetDeletableEntityRepository<Cinema>();
 
-        public IDeletableEntityRepository<City> Cities => this.GetDeletableEntityRepository<City>();
+        public IDeletableEntityRepository<City> Cities 
+            => this.GetDeletableEntityRepository<City>();
 
-        public IDeletableEntityRepository<Contact> Contacts => this.GetDeletableEntityRepository<Contact>();
+        public IDeletableEntityRepository<Contact> Contacts 
+            => this.GetDeletableEntityRepository<Contact>();
 
-        public IDeletableEntityRepository<Article> Articles => this.GetDeletableEntityRepository<Article>();
+        public IDeletableEntityRepository<Article> Articles
+            => this.GetDeletableEntityRepository<Article>();
 
-        public IDeletableEntityRepository<Vote> Votes => this.GetDeletableEntityRepository<Vote>();
+        public IDeletableEntityRepository<Vote> Votes =>
+            this.GetDeletableEntityRepository<Vote>();
 
-        public int SaveChanges() => this._context.SaveChanges();
+        public int SaveChanges() 
+            => this._context.SaveChanges();
 
-        public async Task<int> SaveChangesAsync() => await this.Context.SaveChangesAsync();
+        public async Task<int> SaveChangesAsync() 
+            => await this.Context.SaveChangesAsync();
 
-        public void Dispose() => this.Dispose(true);
+        public void Dispose() 
+            => this.Dispose(true);
 
         protected virtual void Dispose(bool disposing)
         {

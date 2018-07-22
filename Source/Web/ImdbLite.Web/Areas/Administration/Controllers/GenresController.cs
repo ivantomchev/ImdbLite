@@ -1,13 +1,13 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
 
+    using ImdbLite.Common;
     using ImdbLite.Services.Data;
     using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Web.Areas.Administration.ViewModels.Genres;
@@ -26,17 +26,12 @@
 
         public async Task<ActionResult> ReadData(int page = 1)
         {
-            var genres = await _genresService.GetAsync();
+            var genres = await _genresService.GetAsync((uint)(page - 1) * PageSize, PageSize, GlobalConstants.DESC);
+            var totalCount = await _genresService.GetCountAsync();
 
-            var viewModel = genres
-                .OrderByDescending(x => x.CreatedOn)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .AsQueryable()
-                .Project()
-                .To<GenreIndexViewModel>();
+            var viewModel = Mapper.Map<List<GenreIndexViewModel>>(genres);
 
-            ViewBag.Pages = Math.Ceiling((double)genres.Count() / PageSize);
+            ViewBag.Pages = Math.Ceiling((double)totalCount / PageSize);
             ViewBag.CurrentPage = page;
             ViewBag.PreviousPage = page - 1;
             ViewBag.NextPage = page + 1;

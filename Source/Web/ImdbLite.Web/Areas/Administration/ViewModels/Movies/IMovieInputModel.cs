@@ -1,13 +1,13 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.ViewModels.Movies
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web;
     using System.Web.Mvc;
 
-    using ImdbLite.Data.Models;
+    using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
-    using System;
 
     public interface IMovieInputModel
     {
@@ -47,7 +47,7 @@
         [UIHint("UploadFile")]
         HttpPostedFileBase FileToUpload { get; set; }
 
-        MoviePoster Poster { get; set; }
+        FileDTO Poster { get; set; }
 
         IList<CharacterInputModel> Characters { get; set; }
 

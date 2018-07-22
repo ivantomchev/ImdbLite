@@ -1,11 +1,9 @@
 ﻿namespace ImdbLite.Data.Common.Repository
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
-    using ImdbLite.Data.Common.Repository;
 
     public class GenericRepository<T> : IRepository<T> where T : class
     {
@@ -24,15 +22,11 @@
 
         protected DbContext Context { get; set; }
 
-        public virtual IQueryable<T> All()
-        {
-            return this.DbSet.AsQueryable();
-        }
+        public virtual IQueryable<T> All() 
+            => this.DbSet.AsQueryable();
 
-        public virtual T GetById(object id)
-        {
-            return this.DbSet.Find(id);
-        }
+        public virtual T GetById(object id) 
+            => this.DbSet.Find(id);
 
         public virtual T Add(T entity)
         {
@@ -87,14 +81,10 @@
             entry.State = EntityState.Detached;
         }
 
-        public int SaveChanges()
-        {
-            return this.Context.SaveChanges();
-        }
+        public int SaveChanges() 
+            => this.Context.SaveChanges();
 
-        public void Dispose()
-        {
-            this.Context.Dispose();
-        }
+        public void Dispose() 
+            => this.Context.Dispose();
     }
 }

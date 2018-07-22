@@ -4,6 +4,7 @@
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
+
     using ImdbLite.Data.Common.Models;
 
     public class DeletableEntityRepository<T> : GenericRepository<T>, IDeletableEntityRepository<T>
@@ -14,15 +15,11 @@
         {
         }
 
-        public override IQueryable<T> All()
-        {
-            return base.All().Where(x => !x.IsDeleted);
-        }
+        public override IQueryable<T> All() 
+            => base.All().Where(x => !x.IsDeleted);
 
-        public IQueryable<T> AllWithDeleted()
-        {
-            return base.All();
-        }
+        public IQueryable<T> AllWithDeleted() 
+            => base.All();
 
         public override void Delete(T entity)
         {
@@ -33,9 +30,7 @@
             entry.State = EntityState.Modified;
         }
 
-        public void ActualDelete(T entity)
-        {
-            base.Delete(entity);
-        }
+        public void ActualDelete(T entity) 
+            => base.Delete(entity);
     }
 }

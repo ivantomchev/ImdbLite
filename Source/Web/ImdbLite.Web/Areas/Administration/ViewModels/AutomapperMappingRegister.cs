@@ -6,13 +6,14 @@
     using AutoMapper;
 
     using ImdbLite.Data.Models;
+    using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Web.Infrastructure.Mapping;
 
     public class AutomapperMappingRegister : IHaveCustomMappings
     {
         public void CreateMappings(IConfiguration configuration)
         {
-            configuration.CreateMap<HttpPostedFileBase, MoviePoster>()
+            configuration.CreateMap<HttpPostedFileBase, FileDTO>()
                 .ForMember(d => d.Content, opt => opt.ResolveUsing(s =>
                 {
                     MemoryStream target = new MemoryStream();

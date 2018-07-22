@@ -22,9 +22,7 @@
         {
             <tr>
                 <td>
-                    <a class="fancybox" href=@Html.ImageHref(item.Poster.Content,item.Poster.Type) title="@item.Title">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </a>
+                    @Html.DisplayFor(m => item.Title)
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.ReleaseDate)

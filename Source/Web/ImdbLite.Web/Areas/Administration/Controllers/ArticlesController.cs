@@ -1,21 +1,23 @@
 ﻿namespace ImdbLite.Web.Areas.Administration.Controllers
 {
-    using ImdbLite.Data.UnitOfWork;
-    using ImdbLite.Web.Areas.Administration.Controllers.Base;
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+
     using AutoMapper.QueryableExtensions;
-    using System;
+
     using ImdbLite.Common.Extensions;
+    using ImdbLite.Data.Models;
+    using ImdbLite.Data.UnitOfWork;
+    using ImdbLite.Web.Areas.Administration.Controllers.Base;
+    using ImdbLite.Web.Infrastructure.Populators;
 
     using DbModel = ImdbLite.Data.Models.Article;
+    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Articles.ArticleDeleteViewModel;
     using IndexViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Articles.ArticleIndexViewModel;
     using InputModel = ImdbLite.Web.Areas.Administration.ViewModels.Articles.ArticleInputModel;
     using UpdateModel = ImdbLite.Web.Areas.Administration.ViewModels.Articles.ArticleUpdateModel;
-    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Articles.ArticleDeleteViewModel;
-    using System.Collections.Generic;
-    using ImdbLite.Data.Models;
-    using ImdbLite.Web.Infrastructure.Populators;
 
     public class ArticlesController : AdminController
     {

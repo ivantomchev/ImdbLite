@@ -7,47 +7,43 @@
     using System.Web.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
 
+    using ImdbLite.Common;
     using ImdbLite.Common.Extensions;
-    using ImdbLite.Data.UnitOfWork;
     using ImdbLite.Services.Data.DTOs;
     using ImdbLite.Services.Data.Interfaces;
-    using ImdbLite.Web.Areas.Administration.Controllers.Base;
     using ImdbLite.Web.Areas.Administration.ViewModels.Characters;
     using ImdbLite.Web.Areas.Administration.ViewModels.Movies;
     using ImdbLite.Web.Infrastructure.Populators;
 
-    using DeleteViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieDeleteViewModel;
-    using IndexViewModel = ImdbLite.Web.Areas.Administration.ViewModels.Movies.MovieIndexViewModel;
-
-    public class MoviesController : AdminController
+    public class MoviesController : Controller
     {
-        private readonly IDropDownListPopulator _populator;
-        private readonly IMoviesService _moviesService;
         private const int PageSize = 10;
 
-        public MoviesController(IImdbLiteData data, IDropDownListPopulator populator, IMoviesService moviesService)
-            : base(data)
-        {
+        private readonly IDropDownListPopulator _populator;
+        private readonly IMoviesService _moviesService;
+
+        public MoviesController(IDropDownListPopulator populator, IMoviesService moviesService)
+        {     
             _populator = populator;
             _moviesService = moviesService;
         }
 
         public ActionResult Index() => View();
 
-        public ActionResult ReadData(int? Id)
+        public async Task<ActionResult> ReadData(int page = 1)
         {
-            int pageNumber = Id.GetValueOrDefault(1);
-            var count = (double)GetData<IndexViewModel>().Count();
-            var data = GetData<IndexViewModel>().OrderByDescending(x => x.CreatedOn).Skip((pageNumber - 1) * PageSize).Take(PageSize);
+            var movies = await _moviesService.GetAsync((uint)(page - 1) * PageSize, PageSize, GlobalConstants.DESC);
+            var totalCount = await _moviesService.GetCountAsync();
 
-            ViewBag.Pages = Math.Ceiling(count / PageSize);
-            ViewBag.CurrentPage = pageNumber;
-            ViewBag.PreviousPage = pageNumber - 1;
-            ViewBag.NextPage = pageNumber + 1;
+            var viewModel = Mapper.Map<List<MovieIndexViewModel>>(movies);
 
-            return PartialView("_ReadMoviesPartial", data);
+            ViewBag.Pages = Math.Ceiling((double)totalCount / PageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.PreviousPage = page - 1;
+            ViewBag.NextPage = page + 1;
+
+            return PartialView("_ReadMoviesPartial", viewModel);
         }
 
         [HttpPost]
@@ -148,14 +144,5 @@
 
         //    return base.GridOperationAjaxRefreshData();
         //}
-
-        protected override T GetById<T>(object id)
-            => this.Data.Movies.GetById(id) as T;
-
-        protected override IQueryable<TViewModel> GetData<TViewModel>()
-            => this.Data.Movies.All().Project().To<TViewModel>();
-
-        protected override string GetReadDataActionUrl()
-            => Url.Action("ReadData", "Movies");
     }
 }

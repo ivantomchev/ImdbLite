@@ -7,12 +7,14 @@
 
     public interface IGenresService
     {
-        Task<List<GenreDTO>> GetAsync(uint skip = 0, uint take = int.MaxValue);
+        Task<List<GenreDTO>> GetAsync(uint skip = 0, uint take = int.MaxValue, string sort = null);
 
         Task<GenreDTO> GetByIdAsync(int id);
 
         Task UpdateAsync(GenreDTO genre);
 
         Task<GenreDTO> AddAsync(GenreDTO genre);
+
+        Task<int> GetCountAsync();
     }
 }

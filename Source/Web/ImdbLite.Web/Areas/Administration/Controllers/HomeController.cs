@@ -4,10 +4,6 @@
 
     public class HomeController : Controller
     {
-        // GET: Administration/Home
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public ActionResult Index => View();
     }
 }

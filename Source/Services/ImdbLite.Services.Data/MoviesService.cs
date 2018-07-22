@@ -1,9 +1,12 @@
 ﻿namespace ImdbLite.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using ImdbLite.Common;
     using ImdbLite.Common.Extensions;
     using ImdbLite.Data.Models;
     using ImdbLite.Data.UnitOfWork;
@@ -16,6 +19,34 @@
 
         public MoviesService(IImdbLiteData data)
             => _data = data;
+
+        public async Task<int> GetCountAsync()
+            => await _data.Movies.All().CountAsync();
+
+        public async Task<List<MovieListItemDTO>> GetAsync(uint skip = 0, uint take = int.MaxValue, string sort = null)
+        {
+            var query = _data.Movies
+                            .All()
+                            .Select(m => new MovieListItemDTO
+                            {
+                                Id = m.Id,
+                                Title = m.Title,
+                                ReleaseDate = m.ReleaseDate,
+                                CreatedOn = m.CreatedOn,
+                                DeletedOn = m.DeletedOn,
+                                ModifiedOn = m.ModifiedOn,
+                                IsDeleted = m.IsDeleted
+                            });
+
+            query = String.Equals(sort, GlobalConstants.ASC, StringComparison.InvariantCultureIgnoreCase)
+                                ? query.OrderBy(m => m.CreatedOn)
+                                : query.OrderByDescending(m => m.CreatedOn);
+
+            return await query
+                            .Skip(skip.ToInt())
+                            .Take(take.ToInt())
+                            .ToListAsync();
+        }
 
         public async Task<MovieDTO> GetByIdAsync(int id)
         {
@@ -30,11 +61,11 @@
                                 DeletedOn = m.DeletedOn,
                                 ModifiedOn = m.ModifiedOn,
                                 IsDeleted = m.IsDeleted,
-                                Poster = m.Poster,
+                                Poster = new FileDTO { Content = m.Poster.Content, FileExtension = m.Poster.FileExtension, Type = m.Poster.Type },
                                 OfficialTrailer = m.OfficialTrailer,
                                 Duration = m.Duration,
                                 DVDReleaseDate = m.DVDReleaseDate,
-                                TheaterReleaseDate = m.ReleaseDate,
+                                ReleaseDate = m.ReleaseDate,
                                 StoryLine = m.StoryLine,
                                 Genres = m.Genres.Select(g => g.Id),
                                 Cinemas = m.Cinemas.Select(c => c.Id),
@@ -59,10 +90,10 @@
             dbModel.Title = movie.Title;
             dbModel.StoryLine = movie.StoryLine;
             dbModel.Duration = movie.Duration;
-            dbModel.ReleaseDate = movie.TheaterReleaseDate;
+            dbModel.ReleaseDate = movie.ReleaseDate;
             dbModel.DVDReleaseDate = movie.DVDReleaseDate;
             dbModel.OfficialTrailer = movie.OfficialTrailer;
-            dbModel.Poster = movie.Poster;
+            dbModel.Poster = new MoviePoster { Content = movie.Poster.Content, FileExtension = movie.Poster.FileExtension, Type = movie.Poster.Type };
 
             movie.Writers.ForEach(id =>
             {
@@ -102,7 +133,7 @@
             dbModel.Title = movie.Title;
             dbModel.StoryLine = movie.StoryLine;
             dbModel.Duration = movie.Duration;
-            dbModel.ReleaseDate = movie.TheaterReleaseDate;
+            dbModel.ReleaseDate = movie.ReleaseDate;
             dbModel.DVDReleaseDate = movie.DVDReleaseDate;
             dbModel.OfficialTrailer = movie.OfficialTrailer;
             dbModel.Poster.Content = movie.Poster.Content;

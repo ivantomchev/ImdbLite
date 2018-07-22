@@ -17,7 +17,8 @@
             : base("DefaultConnection", throwIfV1Schema: false)
             => Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
 
-        public static ApplicationDbContext Create() => new ApplicationDbContext();
+        public static ApplicationDbContext Create() 
+            => new ApplicationDbContext();
 
         public virtual IDbSet<Celebrity> Celebrities { get; set; }
 
@@ -95,8 +96,10 @@
             }
         }
 
-        public new IDbSet<T> Set<T>() where T : class => base.Set<T>();
+        public new IDbSet<T> Set<T>() where T : class 
+            => base.Set<T>();
 
-        protected override void Dispose(bool disposing) => base.Dispose(disposing);
+        protected override void Dispose(bool disposing) 
+            => base.Dispose(disposing);
     }
 }

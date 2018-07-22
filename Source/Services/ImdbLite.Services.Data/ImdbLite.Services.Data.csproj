@@ -48,8 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs\Base\BaseDTO.cs" />
+    <Compile Include="DTOs\Common\FileDTO.cs" />
     <Compile Include="DTOs\Genres\GenreDTO.cs" />
+    <Compile Include="DTOs\Movies\CharacterDTO.cs" />
     <Compile Include="DTOs\Movies\MovieDTO.cs" />
+    <Compile Include="DTOs\Movies\MovieListItemDTO.cs" />
     <Compile Include="GenresService.cs" />
     <Compile Include="Interfaces\IGenresService.cs" />
     <Compile Include="Interfaces\IMoviesService.cs" />

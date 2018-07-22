@@ -4,11 +4,11 @@
     using System.ComponentModel.DataAnnotations;
 
     using ImdbLite.Web.Infrastructure.Mapping;
-    using ImdbLite.Data.Models;
     using ImdbLite.Common;
     using ImdbLite.Web.Areas.Administration.ViewModels.Base;
+    using ImdbLite.Services.Data.DTOs;
 
-    public class MovieIndexViewModel : NotDeletedIndexViewModel, IMapFrom<Movie>
+    public class MovieIndexViewModel : NotDeletedIndexViewModel, IMapFrom<MovieListItemDTO>
     {
         public int Id { get; set; }
 
@@ -18,7 +18,5 @@
         [DisplayFormat(DataFormatString = GlobalConstants.DateTimeYearFormatString)]
         [Display(Name = "Year")]
         public DateTime ReleaseDate { get; set; }
-
-        public MoviePoster Poster { get; set; }
     }
 }
